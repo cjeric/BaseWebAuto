@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class Page(object):
+class Base(object):
     '''base page object'''
 
     home_page = 'http://sca12r2ss12c:30000/core/Default.html'
@@ -36,8 +36,11 @@ class Page(object):
     def script(self, src):
         return self.driver.execute_script(src)
 
+    def wait_UI(self, *locators):
+        return WebDriverWait(self.driver, 30, 0.5).until(EC.visibility_of_element_located(*locators))
+
 
 
 if __name__ == '__main__':
     driver = webdriver.Firefox()
-    page = Page(driver)
+    page = Base(driver)

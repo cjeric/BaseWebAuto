@@ -2,11 +2,11 @@
 #!c:/Python36
 #Filename: loginPage.py
 
-from base import Page
+from test_case.page_obj.base import Base
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-class loginPage(Page):
+class loginPage(Base):
     url = ''
 
     #username locator
@@ -45,6 +45,13 @@ class loginPage(Page):
     #Function to click Login button
     def click_login(self):
         self.find_element(*self.login_button_loc).click()
+    # login in HJ1
+    def login(self):
+        self.open()
+        self.wait_UI(self.username_loc)
+        self.input_username()
+        self.input_password()
+        self.click_login()
 
 
 if __name__ == '__main__':
