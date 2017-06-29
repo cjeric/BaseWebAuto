@@ -4,6 +4,7 @@
 
 from selenium import webdriver
 import time
+from selenium.webdriver.common import action_chains
 from selenium.webdriver.support.select import Select
 
 driver = webdriver.Firefox()
