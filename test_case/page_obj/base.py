@@ -21,11 +21,17 @@ class Base(object):
         self.driver.get(url)
         assert self.on_page(), 'Did not access to %s' % url
 
-    def find_element(self, *locators):
-        return self.driver.find_element(*locators)
+    def find_element(self, *locators, webelement = None):
+        if webelement:
+            return webelement.find_element(*locators)
+        else:
+            return self.driver.find_element(*locators)
 
-    def find_elements(self, *locators):
-        return self.driver.find_elements(*locators)
+    def find_elements(self, *locators, webelement = None):
+        if webelement:
+            return webelement.find_elements(*locators)
+        else:
+            return self.driver.find_elements(*locators)
 
     def open(self):
         self._open(self.url)
