@@ -23,9 +23,9 @@ class SearchPage(Header):
     field_groups_loc = (By.CSS_SELECTOR, 'div[data-hj-test-id="field-table"]>hj-field-table-row')
     field_group_name_loc = (By.ID,'field-group_title')
 
-    def __get_field_group_rows_path(self, groupIndex):
+    def __get_field_cells_path(self, groupIndex):
         '''
-        Return field group locator according to the group index input.
+        Return hj-feild-cell css selector path according to the group index input.
         :param groupIndex: The field group user want
         :return: the css selector of all field group rows
         '''
@@ -37,7 +37,8 @@ class SearchPage(Header):
             raise IndexError ('The groupIndex is out of the number of groups')
         field_group_rows_path = 'div[data-hj-test-id="field-table"]>hj-field-table-row:nth-of-type(' + str(groupIndex) \
                                 + ')>div[data-hj-test-id="field-table-row"]>hj-field-group>div[data-hj-test-id="field-group"]>div[data-hj-test-id="field-group-content"]>hj-field-group-row'
-        return field_group_rows_path
+        field_cells_path = field_group_rows_path+'>div>hj-field-cell'
+        return field_cells_path
 
     # The  CSS locator of the hj-field-label related to hj-field-group-row element
     field_label_loc = (By.CSS_SELECTOR, 'hj-field-label[data-hj-test-id="field-label"]')
@@ -46,21 +47,19 @@ class SearchPage(Header):
 
     def __get_field_control(self, name, groupIndex):
         '''
-        Return the row number in hj-field-group-row by control's label name
+        Return the hj-field-control by control's label name
         :param groupIndex: The field group the control located in
         :param name: The control's label name
         :return: Return the hj-field-control web element
         '''
-        field_gorup_rows_path = self.__get_field_group_rows_path(groupIndex)
-        field_gorup_rows = self.find_elements(By.CSS_SELECTOR,
-                                              field_gorup_rows_path) #Get all hj-field-group-row elements
+        field_cell_path = self.__get_field_cells_path(groupIndex)
+        field_cells = self.find_elements(By.CSS_SELECTOR, field_cell_path) #Get all hj-field-cell elements in the hj-field-table-row
         counter = 1
-        if len(field_gorup_rows): # Go throuth each row, return hj-field-control if the text matches name input
-            for row in field_gorup_rows:
-                text = self.find_child_element(row, *self.field_label_loc).text
-                # text = row.find_element_by_css_selector(self.field_label_path).text
+        if len(field_cells): # Go throuth each hj-field-cell, return hj-field-control if the text matches name input
+            for cell in field_cells:
+                text = self.find_child_element(cell, *self.field_label_loc).text
                 if text == name:
-                    field_control = self.find_child_element(row, *self.field_control_loc)
+                    field_control = self.find_child_element(cell, *self.field_control_loc)
                     return field_control
                 else:
                     counter+=1
@@ -93,7 +92,6 @@ class SearchPage(Header):
         '''
         list_container = self.__get_list_container()
         dropdown_list_items = self.find_child_elements(list_container, *self.list_container_items_loc)
-        #dropdown_list_items = list_container.find_elements_by_tag_name('li')
         if len(dropdown_list_items):
             items_text_list = []
             for dropdown_list_item in dropdown_list_items:
@@ -109,7 +107,6 @@ class SearchPage(Header):
         '''
         list_container = self.__get_list_container()
         dropdown_list_items = self.find_child_elements(list_container,*self.list_container_items_loc)
-        # dropdown_list_items = list_container.find_elements_by_tag_name('li')
         if len(dropdown_list_items):
             for dropdown_list_item in dropdown_list_items:
                 if dropdown_list_item.text == text:
@@ -130,14 +127,13 @@ class SearchPage(Header):
         if not isinstance(groups_number, int):
             raise ValueError('groups_numbers must be int')
         name_list = []
-        for i in range(groups_number+1):
-            field_gorup_rows_path = self.__get_field_group_rows_path(i)
-            field_gorup_rows = self.find_elements(By.CSS_SELECTOR,
-                                                  field_gorup_rows_path)  # Get all hj-field-group-row elements
-            if len(field_gorup_rows):  # Go throuth each row, return hj-field-control if the text matches name input
-                for row in field_gorup_rows:
-                    text = self.find_child_element(row, *self.field_label_loc).text
-                    # text = row.find_element_by_css_selector(self.field_label_path).text
+        for i in range(1, groups_number+1):
+            field_cells_path = self.__get_field_cells_path(i)
+            field_cells = self.find_elements(By.CSS_SELECTOR,
+                                             field_cells_path)  # Get all hj-field-cell elements
+            if len(field_cells):  # Go throuth each row, return hj-field-control if the text matches name input
+                for cell in field_cells:
+                    text = self.find_child_element(cell, *self.field_label_loc).text
                     name_list.append(text)
             else:
                 raise NoSuchElementException('Field group rows are not located')
@@ -335,9 +331,43 @@ class SearchPage(Header):
         '''
         dropdown_button = self.get_dropdown_button_element(name, groupIndex)
         dropdown_button.location_once_scrolled_into_view
-        dropdown_button.click()
         time.sleep(1)
+        dropdown_button.click()
         self.__select_from_dropdown(value)
+
+    '''
+        The following section is the fucntions to input value to the textbox of dropdown list, such as
+        Calendar, Calendar&Time, Time, Dropdown
+    '''
+    # The CSS locator of the calendar and calendar&time control related to hj-field-control element
+    dropdown_textbox_loc = (By.CSS_SELECTOR, 'input.k-input')
+
+    def get_dropdown_textbox_element(self, name, groupIndex):
+        '''
+        Return the textbox of the calendar and calendar&time controls
+        :param name: The control's label name
+        :param groupIndex: The field group the control located in
+        :return: calendar or calendar&time textbox element
+        '''
+        field_control = self.__get_field_control(name, groupIndex)
+        calendar_textbox = self.find_child_element(field_control, *self.dropdown_textbox_loc)
+        return calendar_textbox
+
+    def action_dropdown_input(self, name, value, groupIndex=1):
+        '''
+        Input value to the textbox of calendar, time and calendar&time controls
+        :param name: The control's label name
+        :param value: The option's text you want to input
+        :param groupIndex: The field group the control located in, default is 1
+        :return:
+        '''
+        calendar_textbox = self.get_dropdown_textbox_element(name, groupIndex)
+        calendar_textbox.clear()
+        calendar_textbox.send_keys(value)
+
+    def get_value(self):
+        element = self.get_edit_element('Edit', 2)
+        print(element.get_attribute('value'))
 
     '''
     The following section is the fucntions to locate and operate the listbox control.
@@ -367,38 +397,7 @@ class SearchPage(Header):
         listbox = select.Select(self.get_listbox_element(name,groupIndex))
         listbox.select_by_visible_text(value)
 
-    '''
-    The following section is the fucntions to locate and operate the calendar and calendar&time control.
-    '''
-    # The CSS locator of the calendar and calendar&time control related to hj-field-control element
-    calendar_textbox_loc = (By.CSS_SELECTOR, 'input.k-input')
 
-    def get_calendar_textbox_element(self,name,groupIndex):
-        '''
-        Return the textbox of the calendar and calendar&time controls
-        :param name: The control's label name
-        :param groupIndex: The field group the control located in
-        :return: calendar or calendar&time textbox element
-        '''
-        field_control = self.__get_field_control(name,groupIndex)
-        calendar_textbox = self.find_child_element(field_control, *self.calendar_textbox_loc)
-        return calendar_textbox
-
-    def action_calendar_input(self, name, value, groupIndex=1):
-        '''
-        Input value to the textbox of calendar and calendar&time controls
-        :param name: The control's label name
-        :param value: The option's text you want to input
-        :param groupIndex: The field group the control located in, default is 1
-        :return:
-        '''
-        calendar_textbox = self.get_calendar_textbox_element(name, groupIndex)
-        calendar_textbox.clear()
-        calendar_textbox.send_keys(value)
-
-    def get_value(self):
-        element = self.get_edit_element('Edit',2)
-        print(element.get_attribute('value'))
 
 if __name__ == '__main__':
     webdriver = webdriver.Firefox()
@@ -417,19 +416,16 @@ if __name__ == '__main__':
     searchPage = SearchPage(webdriver)
     print(searchPage.action_get_title())
     time.sleep(1)
+    print (searchPage.action_get_all_labels_name(2))
+    searchPage.action_dropdown_input('Calendar', '7/4/2017')
+    searchPage.action_checkbox_check('checkbox')
+    searchPage.action_edit_input('Edit','abc',2)
+    searchPage.action_multiedit_input('MultiEdit','abceffg',2)
+    searchPage.action_listbox_select('ListBox','Warehouse Default',2)
+    searchPage.action_searchlike_input('searchLike','defg',2,'Exactly')
+    searchPage.action_dropdown_input('time', '1:30 AM', 2)
     searchPage.action_dropdown_select('dropdown','Warehouse 02', 2)
-    # searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
-    # searchPage.action_searchlike_input('ASN Number', 'ASN2')
-    # searchPage.action_checkbox_check('Search by Date')
-    # time.sleep(5)
-    # searchPage.action_calendar_input('Start Date', '2/18/2013',2)
-    # time.sleep(1)
-    # searchPage.action_click_button(searchPage.query_loc)
-    # time.sleep(5)
-    # menu_bar.action_toggle_menu()
-    # time.sleep(1)
-    # menu_bar.action_expand_menu('Inbound Orders', False)
-    # time.sleep(5)
+
     # webdriver.quit()
 
 
