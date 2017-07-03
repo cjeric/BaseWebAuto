@@ -40,9 +40,9 @@ class SearchPage(Header):
         return field_group_rows_path
 
     # The  CSS locator of the hj-field-label related to hj-field-group-row element
-    field_label_path = 'hj-field-label[data-hj-test-id="field-label"]'
+    field_label_loc = (By.CSS_SELECTOR, 'hj-field-label[data-hj-test-id="field-label"]')
     # The CSS locator of the hj-field-control name related to hj-field-group-row element
-    field_control_path = 'hj-field-control[data-hj-test-id="field-control"]'
+    field_control_loc = (By.CSS_SELECTOR, 'hj-field-control[data-hj-test-id="field-control"]')
 
     def __get_field_control(self, name, groupIndex):
         '''
@@ -55,16 +55,16 @@ class SearchPage(Header):
         field_gorup_rows = self.find_elements(By.CSS_SELECTOR,
                                               field_gorup_rows_path) #Get all hj-field-group-row elements
         counter = 1
-        if field_gorup_rows: # Go throuth each row, return hj-field-control if the text matches name input
+        if len(field_gorup_rows): # Go throuth each row, return hj-field-control if the text matches name input
             for row in field_gorup_rows:
-                text = row.find_element_by_css_selector(self.field_label_path).text
+                text = self.find_child_element(row, *self.field_label_loc).text
+                # text = row.find_element_by_css_selector(self.field_label_path).text
                 if text == name:
-                    field_control = row.find_element_by_css_selector(self.field_control_path)
+                    field_control = self.find_child_element(row, *self.field_control_loc)
                     return field_control
                 else:
                     counter+=1
-        else:
-            raise NoSuchElementException('hj-field-group-row not found by the provided name and groupIndex')
+        raise NoSuchElementException('hj-field-group-row not found by the provided name and groupIndex')
 
     '''
     The following section is for the dropdown list operations. The functions are independent, not based
@@ -92,14 +92,14 @@ class SearchPage(Header):
         :return: the items list
         '''
         list_container = self.__get_list_container()
-        dropdown_list_items = list_container.find_elements_by_tag_name('li')
-        if dropdown_list_items:
+        dropdown_list_items = self.find_child_elements(list_container, *self.list_container_items_loc)
+        #dropdown_list_items = list_container.find_elements_by_tag_name('li')
+        if len(dropdown_list_items):
             items_text_list = []
             for dropdown_list_item in dropdown_list_items:
                 items_text_list.append(dropdown_list_item.text)
             return items_text_list
-        else:
-            raise NoSuchElementException('The item in dropdown list is not located')
+        raise NoSuchElementException('The item in dropdown list is not located')
 
     def __select_from_dropdown(self, text):
         '''
@@ -108,8 +108,9 @@ class SearchPage(Header):
         :return: None
         '''
         list_container = self.__get_list_container()
-        dropdown_list_items = list_container.find_elements_by_tag_name('li')
-        if dropdown_list_items:
+        dropdown_list_items = self.find_child_elements(list_container,*self.list_container_items_loc)
+        # dropdown_list_items = list_container.find_elements_by_tag_name('li')
+        if len(dropdown_list_items):
             for dropdown_list_item in dropdown_list_items:
                 if dropdown_list_item.text == text:
                     dropdown_list_item.click()
@@ -133,10 +134,13 @@ class SearchPage(Header):
             field_gorup_rows_path = self.__get_field_group_rows_path(i)
             field_gorup_rows = self.find_elements(By.CSS_SELECTOR,
                                                   field_gorup_rows_path)  # Get all hj-field-group-row elements
-            if field_gorup_rows:  # Go throuth each row, return hj-field-control if the text matches name input
+            if len(field_gorup_rows):  # Go throuth each row, return hj-field-control if the text matches name input
                 for row in field_gorup_rows:
-                    text = row.find_element_by_css_selector(self.field_label_path).text
+                    text = self.find_child_element(row, *self.field_label_loc).text
+                    # text = row.find_element_by_css_selector(self.field_label_path).text
                     name_list.append(text)
+            else:
+                raise NoSuchElementException('Field group rows are not located')
         return name_list
 
     # button locators
@@ -168,7 +172,7 @@ class SearchPage(Header):
     The following section is the fucntions to locate and operate the checkbox control.
     '''
     # The CSS locator of the hj-checkbox related to hj-field-control element
-    checkbox_path = ('hj-checkbox>div>input.k-checkbox')
+    checkbox_loc = (By.CSS_SELECTOR, 'hj-checkbox>div>input.k-checkbox')
 
     def get_checkbox_element(self,name, groupIndex):
         '''
@@ -178,7 +182,7 @@ class SearchPage(Header):
         :return: hj-checkbox element
         '''
         field_control = self.__get_field_control(name, groupIndex)
-        checkbox_element = field_control.find_element_by_css_selector(self.checkbox_path)
+        checkbox_element = self.find_child_element(field_control, *self.checkbox_loc)
         if checkbox_element.get_attribute("type") == "checkbox":
             return checkbox_element
         else:
@@ -199,7 +203,7 @@ class SearchPage(Header):
     supports edit and masked edit controls
     '''
     # The CSS locator of the hj-textbox and hj-password-text related to hj-field-control element
-    edit_path = 'input.k-textbox'
+    edit_loc = (By.CSS_SELECTOR, 'input.k-textbox')
 
     def get_edit_element(self,name, groupIndex):
         '''
@@ -209,7 +213,7 @@ class SearchPage(Header):
         :return: hj-textbox or hj-passowrd-textbox element
         '''
         field_control = self.__get_field_control(name, groupIndex)
-        edit_element = field_control.find_element_by_css_selector(self.edit_path)
+        edit_element = self.find_child_element(field_control, *self.edit_loc)
         return edit_element
 
     def action_edit_input(self,name, value, groupIndex=1):
@@ -227,7 +231,7 @@ class SearchPage(Header):
     The following section is the fucntions to locate and operate the multi edit control.
     '''
     # The CSS locator of the hj-multiline-textbox related to hj-field-control element
-    multiedit_path = 'hj-multiline-textbox>textarea.k-textbox'
+    multiedit_loc = (By.CSS_SELECTOR, 'hj-multiline-textbox>textarea.k-textbox')
 
     def get_multiedit_element(self,name, groupIndex):
         '''
@@ -237,7 +241,7 @@ class SearchPage(Header):
         :return: hj-multieline-textbox element
         '''
         field_control = self.__get_field_control(name, groupIndex)
-        multiedit_element = field_control.find_element_by_css_selector(self.multiedit_path)
+        multiedit_element = self.find_child_element(field_control, *self.multiedit_loc)
         return multiedit_element
 
     def action_multiedit_input(self,name, value,groupIndex=1 ):
@@ -248,16 +252,16 @@ class SearchPage(Header):
         :param value: The value input
         :return: None
         '''
-        multiedit_element = self.get_multiedit_element(groupIndex, name)
+        multiedit_element = self.get_multiedit_element(name, groupIndex)
         multiedit_element.send_keys(value)
 
     '''
     The following section is the fucntions to locate and operate the search like control.
     '''
     # The CSS locator of the searchlike control related to hj-field-control element
-    searchlike_textbox_path = 'div.searchLike-control-textbox-container>hj-textbox>input'
-    searchlike_button_path = 'div.searchLike-control-dropdownlist-container>hj-dropdownlist>span>span>span.k-select'
-    searchlike_path = [searchlike_button_path, searchlike_textbox_path]
+    searchlike_textbox_loc = (By.CSS_SELECTOR, 'div.searchLike-control-textbox-container>hj-textbox>input')
+    searchlike_button_loc = (By.CSS_SELECTOR, 'div.searchLike-control-dropdownlist-container>hj-dropdownlist>span>span>span.k-select')
+    searchlike_locs = [searchlike_button_loc, searchlike_textbox_loc]
 
     def get_searchlike_element(self, name, groupIndex):
         '''
@@ -268,9 +272,9 @@ class SearchPage(Header):
         :return: The searchlike control components list
         '''
         searchlike_elements=[]
-        for path in self.searchlike_path:
+        for loc in self.searchlike_locs:
             field_control = self.__get_field_control(name, groupIndex)
-            searchlike_element = field_control.find_element_by_css_selector(path)
+            searchlike_element = self.find_child_element(field_control, *loc)
             searchlike_elements.append(searchlike_element)
         return searchlike_elements
 
@@ -295,7 +299,7 @@ class SearchPage(Header):
     supports drop down list and Time controls
     '''
     # The CSS locator of the dropdown list button control related to hj-field-control element
-    dropdown_button_path = 'span.k-select'
+    dropdown_button_loc = (By.CSS_SELECTOR, 'span.k-select')
 
     def get_dropdown_button_element(self, name, groupIndex):
         '''
@@ -305,7 +309,8 @@ class SearchPage(Header):
         :return: drop down button element
         '''
         field_control = self.__get_field_control(name, groupIndex)
-        dropdown_button = field_control.find_element_by_css_selector(self.dropdown_button_path)
+        dropdown_button = self.find_child_element(field_control, *self.dropdown_button_loc)
+       # dropdown_button = field_control.find_element_by_css_selector(self.dropdown_button_loc)
         return dropdown_button
 
     def get_dropdown_options(self, name, groupIndex=1):
@@ -336,7 +341,7 @@ class SearchPage(Header):
     The following section is the fucntions to locate and operate the listbox control.
     '''
     # The CSS locator of the listbox control related to hj-field-control element
-    listbox_path = 'hj-listbox>select'
+    listbox_loc = (By.CSS_SELECTOR, 'hj-listbox>select')
 
     def get_listbox_element(self,name,groupIndex):
         '''
@@ -346,7 +351,7 @@ class SearchPage(Header):
         :return: Return listbox element
         '''
         field_control = self.__get_field_control(name, groupIndex)
-        listbox_control = field_control.find_element_by_css_selector(self.listbox_path)
+        listbox_control = self.find_child_element(field_control, *self.listbox_loc)
         return listbox_control
 
     def action_listbox_select(self, name, value, groupIndex=1):
@@ -364,7 +369,7 @@ class SearchPage(Header):
     The following section is the fucntions to locate and operate the calendar and calendar&time control.
     '''
     # The CSS locator of the calendar and calendar&time control related to hj-field-control element
-    calendar_textbox_path = 'input.k-input'
+    calendar_textbox_loc = (By.CSS_SELECTOR, 'input.k-input')
 
     def get_calendar_textbox_element(self,name,groupIndex):
         '''
@@ -374,7 +379,7 @@ class SearchPage(Header):
         :return: calendar or calendar&time textbox element
         '''
         field_control = self.__get_field_control(name,groupIndex)
-        calendar_textbox = field_control.find_element_by_css_selector(self.calendar_textbox_path)
+        calendar_textbox = self.find_child_element(field_control, *self.calendar_textbox_loc)
         return calendar_textbox
 
     def action_calendar_input(self, name, value, groupIndex=1):
@@ -386,6 +391,7 @@ class SearchPage(Header):
         :return:
         '''
         calendar_textbox = self.get_calendar_textbox_element(name, groupIndex)
+        calendar_textbox.clear()
         calendar_textbox.send_keys(value)
 
     def get_value(self):
@@ -404,16 +410,25 @@ if __name__ == '__main__':
     time.sleep(1)
     menu_bar.action_expand_app_group('Supply Chain Advantage')
     menu_bar.action_expand_menu('Advantage Dashboard')
-    menu_bar.action_expand_menu('Receiving')
-    menu_bar.action_expand_menu('ASNs', False)
+    # menu_bar.action_expand_menu('Receiving')
+    menu_bar.action_expand_menu('searchTest', False)
     searchPage = SearchPage(webdriver)
     print(searchPage.action_get_title())
     time.sleep(1)
-    searchPage.action_dropdown_select('Warehouse ID', '01 - Warehouse 01')
-    searchPage.action_searchlike_input('ASN Number', 'ASN2')
-    searchPage.action_checkbox_check('Search by Date')
-    # searchPage.get_value()
-    # searchPage.action_calendar_input('Calendar', '6/2/2016')
+    searchPage.action_checkbox_check('checkbox2',2)
+    # searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
+    # searchPage.action_searchlike_input('ASN Number', 'ASN2')
+    # searchPage.action_checkbox_check('Search by Date')
+    # time.sleep(5)
+    # searchPage.action_calendar_input('Start Date', '2/18/2013',2)
+    # time.sleep(1)
+    # searchPage.action_click_button(searchPage.query_loc)
+    # time.sleep(5)
+    # menu_bar.action_toggle_menu()
+    # time.sleep(1)
+    # menu_bar.action_expand_menu('Inbound Orders', False)
+    # time.sleep(5)
     # webdriver.quit()
+
 
 
