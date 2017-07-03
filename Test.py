@@ -26,7 +26,7 @@ menu = driver.find_element_by_id('menuButtonToggle')
 menu.click()
 time.sleep(1)
 scamenu = driver.find_element_by_xpath('//nav[@id="menu"]/ul/li[@class="with-children closed"][2]/a')
-
+scamenu.location_once_scrolled_into_view
 # time.sleep(2)
 # wamenu = driver.find_element_by_xpath('//nav[@id="menu"]/ul/li[3]')
 # print (wamenu.get_attribute('class'))

@@ -333,7 +333,9 @@ class SearchPage(Header):
         :param groupIndex: The field group the control located in, default is 1
         :return: None
         '''
-        self.get_dropdown_button_element(name, groupIndex).click()
+        dropdown_button = self.get_dropdown_button_element(name, groupIndex)
+        dropdown_button.location_once_scrolled_into_view
+        dropdown_button.click()
         time.sleep(1)
         self.__select_from_dropdown(value)
 
@@ -415,7 +417,7 @@ if __name__ == '__main__':
     searchPage = SearchPage(webdriver)
     print(searchPage.action_get_title())
     time.sleep(1)
-    searchPage.action_checkbox_check('checkbox2',2)
+    searchPage.action_dropdown_select('dropdown','Warehouse 02', 2)
     # searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
     # searchPage.action_searchlike_input('ASN Number', 'ASN2')
     # searchPage.action_checkbox_check('Search by Date')
