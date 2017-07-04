@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a83ce147-e4ff-4a9b-8f1d-c4bec7b19795" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_case/page_obj/ReportPage.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test.py" afterPath="$PROJECT_DIR$/Test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/page_obj/MenuBar.py" afterPath="$PROJECT_DIR$/test_case/page_obj/MenuBar.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/page_obj/SearchPage.py" afterPath="$PROJECT_DIR$/test_case/page_obj/SearchPage.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_case/page_obj/header.py" afterPath="$PROJECT_DIR$/test_case/page_obj/header.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/test_case/page_obj/loginPage.py" afterPath="$PROJECT_DIR$/test_case/page_obj/LoginPage.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,8 +23,8 @@
       <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_case/page_obj/base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="5" column="64" lean-forward="false" selection-start-line="5" selection-start-column="64" selection-end-line="5" selection-end-column="64" />
+            <state relative-caret-position="551">
+              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
               <folding>
                 <element signature="e#57#87#0" expanded="true" />
               </folding>
@@ -26,13 +32,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchPage.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LoginPage.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchPage.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_case/page_obj/SearchPage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6612">
-              <caret line="366" column="0" lean-forward="true" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
+            <state relative-caret-position="-397">
+              <caret line="356" column="24" lean-forward="true" selection-start-line="356" selection-start-column="24" selection-end-line="356" selection-end-column="24" />
               <folding>
                 <element signature="e#64#108#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportPage.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test_case/page_obj/ReportPage.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="304">
+              <caret line="40" column="34" lean-forward="true" selection-start-line="40" selection-start-column="34" selection-end-line="40" selection-end-column="34" />
+              <folding>
+                <element signature="e#64#108#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="header.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_case/page_obj/header.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="183">
+              <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
+              <folding>
+                <element signature="e#62#102#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -42,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/Test.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="418">
-              <caret line="28" column="40" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="40" />
+              <caret line="28" column="7" lean-forward="false" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
               <folding>
                 <element signature="e#54#84#0" expanded="true" />
               </folding>
@@ -64,6 +104,9 @@
       <find>title</find>
       <find>group_name</find>
       <find>#</find>
+      <find>label</find>
+      <find>list</find>
+      <find>get_title</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -77,14 +120,16 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/test_case/page_obj/pageHeader.py" />
-        <option value="$PROJECT_DIR$/test_case/page_obj/header.py" />
         <option value="$PROJECT_DIR$/test_case/page_obj/menuBar.py" />
         <option value="$PROJECT_DIR$/test_case/page_obj/searchPage.py" />
         <option value="$PROJECT_DIR$/test_case/page_obj/MenuBar.py" />
-        <option value="$PROJECT_DIR$/test_case/page_obj/loginPage.py" />
-        <option value="$PROJECT_DIR$/Test.py" />
         <option value="$PROJECT_DIR$/test_case/page_obj/base.py" />
         <option value="$PROJECT_DIR$/test_case/page_obj/SearchPage.py" />
+        <option value="$PROJECT_DIR$/test_case/page_obj/loginPage.py" />
+        <option value="$PROJECT_DIR$/test_case/page_obj/LoginPage.py" />
+        <option value="$PROJECT_DIR$/Test.py" />
+        <option value="$PROJECT_DIR$/test_case/page_obj/header.py" />
+        <option value="$PROJECT_DIR$/test_case/page_obj/ReportPage.py" />
       </list>
     </option>
   </component>
@@ -175,25 +220,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.SearchPage">
-    <configuration default="false" name="menuBar" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_case/page_obj" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="BaseWeb" />
-      <option name="SCRIPT_NAME" value="F:\BaseWebAuto\test_case\page_obj\MenuBar.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.ReportPage">
     <configuration default="false" name="pageHeader" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -266,6 +293,24 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
+    <configuration default="false" name="ReportPage" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_case/page_obj" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="BaseWeb" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_case/page_obj/ReportPage.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -331,19 +376,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.menuBar" />
-      <item index="1" class="java.lang.String" itemvalue="Python.pageHeader" />
-      <item index="2" class="java.lang.String" itemvalue="Python.searchPage" />
-      <item index="3" class="java.lang.String" itemvalue="Python.MenuBar" />
-      <item index="4" class="java.lang.String" itemvalue="Python.SearchPage" />
+      <item index="0" class="java.lang.String" itemvalue="Python.pageHeader" />
+      <item index="1" class="java.lang.String" itemvalue="Python.searchPage" />
+      <item index="2" class="java.lang.String" itemvalue="Python.MenuBar" />
+      <item index="3" class="java.lang.String" itemvalue="Python.SearchPage" />
+      <item index="4" class="java.lang.String" itemvalue="Python.ReportPage" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.SearchPage" />
-        <item index="1" class="java.lang.String" itemvalue="Python.MenuBar" />
-        <item index="2" class="java.lang.String" itemvalue="Python.searchPage" />
-        <item index="3" class="java.lang.String" itemvalue="Python.pageHeader" />
-        <item index="4" class="java.lang.String" itemvalue="Python.menuBar" />
+        <item index="0" class="java.lang.String" itemvalue="Python.ReportPage" />
+        <item index="1" class="java.lang.String" itemvalue="Python.SearchPage" />
+        <item index="2" class="java.lang.String" itemvalue="Python.MenuBar" />
+        <item index="3" class="java.lang.String" itemvalue="Python.searchPage" />
+        <item index="4" class="java.lang.String" itemvalue="Python.pageHeader" />
       </list>
     </recent_temporary>
   </component>
@@ -373,7 +418,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20108695" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4304348" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -401,21 +446,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="15" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="33" column="55" lean-forward="false" selection-start-line="33" selection-start-column="55" selection-end-line="33" selection-end-column="55" />
-          <folding>
-            <element signature="e#57#87#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
@@ -484,7 +519,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/loginPage.py">
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="741">
           <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
@@ -576,7 +611,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/loginPage.py">
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1197">
           <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
@@ -621,7 +656,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/loginPage.py">
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="969">
           <caret line="56" column="46" lean-forward="true" selection-start-line="56" selection-start-column="46" selection-end-line="56" selection-end-column="46" />
@@ -648,7 +683,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/loginPage.py">
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="17" column="39" lean-forward="false" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
@@ -665,7 +700,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/loginPage.py">
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="703">
           <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
@@ -706,14 +741,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/header.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="5" column="43" lean-forward="false" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -790,38 +817,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="28" column="40" lean-forward="true" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="40" />
-          <folding>
-            <element signature="e#54#84#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_case/page_obj/loginPage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_case/page_obj/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="64" lean-forward="false" selection-start-line="5" selection-start-column="64" selection-end-line="5" selection-end-column="64" />
+        <state relative-caret-position="551">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding>
             <element signature="e#57#87#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="28" column="7" lean-forward="false" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+          <folding>
+            <element signature="e#54#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/LoginPage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/header.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
+          <folding>
+            <element signature="e#62#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_case/page_obj/SearchPage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6612">
-          <caret line="366" column="0" lean-forward="true" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
+        <state relative-caret-position="-397">
+          <caret line="356" column="24" lean-forward="true" selection-start-line="356" selection-start-column="24" selection-end-line="356" selection-end-column="24" />
+          <folding>
+            <element signature="e#64#108#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_case/page_obj/ReportPage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="40" column="34" lean-forward="true" selection-start-line="40" selection-start-column="34" selection-end-line="40" selection-end-column="34" />
           <folding>
             <element signature="e#64#108#0" expanded="true" />
           </folding>

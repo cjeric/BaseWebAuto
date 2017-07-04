@@ -3,7 +3,7 @@
 #Filename: SearchPage.py
 
 from test_case.page_obj.header import Header
-from test_case.page_obj.loginPage import loginPage
+from test_case.page_obj.LoginPage import LoginPage
 from test_case.page_obj.MenuBar import MenuBar
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -152,17 +152,6 @@ class SearchPage(Header):
         '''
         button = self.wait_UI(button_loc)
         button.click()
-
-    #title locator
-    title_loc = (By.CSS_SELECTOR, 'span[data-hj-test-id="hj-active-page-title"]')
-
-    def action_get_title(self):
-        '''
-        Return the page title by title_locator
-        :return: The text of the page title
-        '''
-        title = self.wait_UI(self.title_loc)
-        return self.find_element(*self.title_loc).text
 
     '''
     The following section is the fucntions to locate and operate the checkbox control.
@@ -397,13 +386,21 @@ class SearchPage(Header):
         listbox = select.Select(self.get_listbox_element(name,groupIndex))
         listbox.select_by_visible_text(value)
 
+    '''
+    The following section is the function to locate and operate the label control
+    '''
+    label_loc = (By.CSS_SELECTOR,'hj-label>span')
 
+    def get_label_element(self, name,groupIndex):
+        field_control = self.__get_field_control(name, groupIndex)
+        label_control = self.find_child_element(field_control, *self.label_loc)
+        return label_control
 
 if __name__ == '__main__':
     webdriver = webdriver.Firefox()
     webdriver.maximize_window()
     webdriver.implicitly_wait(10)
-    login_page = loginPage(webdriver)
+    login_page = LoginPage(webdriver)
     login_page.login()
     menu_bar = MenuBar(webdriver)
     menu_bar.wait_UI(menu_bar.menu_button_loc)
@@ -411,21 +408,16 @@ if __name__ == '__main__':
     time.sleep(1)
     menu_bar.action_expand_app_group('Supply Chain Advantage')
     menu_bar.action_expand_menu('Advantage Dashboard')
-    # menu_bar.action_expand_menu('Receiving')
-    menu_bar.action_expand_menu('searchTest', False)
+    menu_bar.action_expand_menu('Receiving')
+    menu_bar.action_expand_menu('ASNs', False)
     searchPage = SearchPage(webdriver)
     print(searchPage.action_get_title())
     time.sleep(1)
-    print (searchPage.action_get_all_labels_name(2))
-    searchPage.action_dropdown_input('Calendar', '7/4/2017')
-    searchPage.action_checkbox_check('checkbox')
-    searchPage.action_edit_input('Edit','abc',2)
-    searchPage.action_multiedit_input('MultiEdit','abceffg',2)
-    searchPage.action_listbox_select('ListBox','Warehouse Default',2)
-    searchPage.action_searchlike_input('searchLike','defg',2,'Exactly')
-    searchPage.action_dropdown_input('time', '1:30 AM', 2)
-    searchPage.action_dropdown_select('dropdown','Warehouse 02', 2)
-
+    print (searchPage.action_get_all_labels_name(1))
+    searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
+    searchPage.action_checkbox_check('Search by Date')
+    searchPage.action_searchlike_input('ASN Number','ASN2')
+    searchPage.action_click_button(searchPage.query_loc)
     # webdriver.quit()
 
 

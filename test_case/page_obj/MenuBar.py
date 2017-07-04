@@ -3,7 +3,7 @@
 #Filename: MenuBar.py
 
 from test_case.page_obj.base import Base
-from test_case.page_obj.loginPage import loginPage
+from test_case.page_obj.LoginPage import LoginPage
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
@@ -95,7 +95,7 @@ class MenuBar(Base):
 if __name__ == '__main__':
     pass
     webdriver = webdriver.Firefox()
-    login_page = loginPage(webdriver)
+    login_page = LoginPage(webdriver)
     login_page.login()
     menu_bar = MenuBar(webdriver)
     menu_bar.wait_UI(menu_bar.menu_button_loc)

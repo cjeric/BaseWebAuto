@@ -1,12 +1,13 @@
 # _*_ coding: utf-8 _*_
 #!c:/Python36
-#Filename: loginPage.py
+#Filename: LoginPage.py
 
 from test_case.page_obj.base import Base
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-class loginPage(Base):
+
+class LoginPage(Base):
     url = ''
 
     #username locator
@@ -62,7 +63,7 @@ class loginPage(Base):
 if __name__ == '__main__':
     driver = webdriver.Firefox()
     driver.implicitly_wait(5)
-    login_page = loginPage(driver)
+    login_page = LoginPage(driver)
     login_page.open()
     login_page.wait_UI(login_page.username_loc)
     login_page.action_input_username()
