@@ -2,7 +2,7 @@
 #!c:/Python36
 #Filename: SearchPage.py
 
-from test_case.page_obj.header import Header
+from test_case.page_obj.basepage import BasePage
 from test_case.page_obj.LoginPage import LoginPage
 from test_case.page_obj.MenuBar import MenuBar
 from selenium import webdriver
@@ -12,7 +12,7 @@ from selenium.webdriver.support import select
 import time
 
 
-class SearchPage(Header):
+class SearchPage(BasePage):
     url = ''
 
     '''

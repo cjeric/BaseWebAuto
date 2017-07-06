@@ -1,12 +1,12 @@
 # _*_ coding: utf-8 _*_
 # !c:/Python36
-# Filename: header.py
+# Filename: basepage.py
 
 from test_case.page_obj.base import Base
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
-class Header(Base):
+class BasePage(Base):
     url = ''
 
     # page tiltle locator

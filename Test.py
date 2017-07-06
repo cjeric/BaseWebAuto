@@ -27,6 +27,7 @@ menu.click()
 time.sleep(1)
 scamenu = driver.find_element_by_xpath('//nav[@id="menu"]/ul/li[@class="with-children closed"][2]/a')
 scamenu
+list = []
 # wamenu = driver.find_element_by_xpath('//nav[@id="menu"]/ul/li[3]')
 # print (wamenu.get_attribute('class'))
 # wamenu.click()
