@@ -14,11 +14,8 @@ import time
 
 class SearchPage(BasePage):
     url = ''
+    # TODO Functions to find the specific  hj-field-group-row. hj-field-group-row contains label and the UI.hj-field-group-row is used as parent element to help locate the deeper UI controls
 
-    '''
-    The following section is to find the specific  hj-field-group-row. hj-field-group-row contains 
-    label and the UI.hj-field-group-row is used as parent element to help locate the deeper UI controls
-    '''
     # The locator of the all field groups
     field_groups_loc = (By.CSS_SELECTOR, 'div[data-hj-test-id="field-table"]>hj-field-table-row')
     field_group_name_loc = (By.ID,'field-group_title')
@@ -65,10 +62,8 @@ class SearchPage(BasePage):
                     counter+=1
         raise NoSuchElementException('hj-field-group-row not found by the provided name and groupIndex')
 
-    '''
-    The following section is for the dropdown list operations. The functions are independent, not based
-     on any other UI controls. 
-    '''
+    # TODO Functions for the dropdown list operations. The functions are independent, not based on any other UI controls.
+
     # The locator of all div<k-list-container>. k-list-container is the container of the dropdown list in the page
     list_container_loc = (By.CLASS_NAME, 'k-list-container')
     # The locator of the dropdown list items. It is related to the div<k-list-container> element.
@@ -114,10 +109,8 @@ class SearchPage(BasePage):
                     return
         raise NoSuchElementException('The item in dropdown list is not located')
 
-    '''
-    The following section is the general fucntions to locate and operation the search page not based on any 
-    specific UI controls. 
-    '''
+    # TODO General fucntions to operate the search page not based on any specific UI controls.
+
     def action_get_all_labels_name(self, groups_number=1):
         '''
         Return all label names on the page
@@ -139,23 +132,8 @@ class SearchPage(BasePage):
                 raise NoSuchElementException('Field group rows are not located')
         return name_list
 
-    # button locators
-    query_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="query-button"]>a')
-    reset_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="reset-button"]>a')
-    refresh_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="refresh-page-button"]>a')
+    # TODO fucntions to locate and operate the checkbox control.
 
-    def action_click_button(self, button_loc):
-        '''
-        The action to click the specific button
-        :param button_loc: The locator of the button
-        :return: None
-        '''
-        button = self.wait_UI(button_loc)
-        button.click()
-
-    '''
-    The following section is the fucntions to locate and operate the checkbox control.
-    '''
     # The CSS locator of the hj-checkbox related to hj-field-control element
     checkbox_loc = (By.CSS_SELECTOR, 'hj-checkbox>div>input.k-checkbox')
 
@@ -183,10 +161,8 @@ class SearchPage(BasePage):
         checkbox_element = self.get_checkbox_element(name, groupIndex)
         checkbox_element.click()
 
-    '''
-    The following section is the fucntions to locate and operate the textbox related controls. It
-    supports edit and masked edit controls
-    '''
+    # TODO fucntions to locate and operate the textbox related controls. Support edit and masked edit controls
+
     # The CSS locator of the hj-textbox and hj-password-text related to hj-field-control element
     edit_loc = (By.CSS_SELECTOR, 'input.k-textbox')
 
@@ -212,9 +188,8 @@ class SearchPage(BasePage):
         edit_element = self.get_edit_element(name, groupIndex)
         edit_element.send_keys(value)
 
-    '''
-    The following section is the fucntions to locate and operate the multi edit control.
-    '''
+    # TODO fucntions to locate and operate the multi edit control.
+
     # The CSS locator of the hj-multiline-textbox related to hj-field-control element
     multiedit_loc = (By.CSS_SELECTOR, 'hj-multiline-textbox>textarea.k-textbox')
 
@@ -240,9 +215,8 @@ class SearchPage(BasePage):
         multiedit_element = self.get_multiedit_element(name, groupIndex)
         multiedit_element.send_keys(value)
 
-    '''
-    The following section is the fucntions to locate and operate the search like control.
-    '''
+    # TODO fucntions to locate and operate the search like control.
+
     # The CSS locator of the searchlike control related to hj-field-control element
     searchlike_textbox_loc = (By.CSS_SELECTOR, 'div.searchLike-control-textbox-container>hj-textbox>input')
     searchlike_button_loc = (By.CSS_SELECTOR, 'div.searchLike-control-dropdownlist-container>hj-dropdownlist>span>span>span.k-select')
@@ -279,10 +253,8 @@ class SearchPage(BasePage):
         self.__select_from_dropdown(search_type)
         searchlike_elements[1].send_keys(value)
 
-    '''
-    The following section is the fucntions to locate and operate the dorpdown list related controls. It
-    supports drop down list and Time controls
-    '''
+    # TODO fucntions to locate and operate the dorpdown list related controls. Support drop down list and Time controls
+
     # The CSS locator of the dropdown list button control related to hj-field-control element
     dropdown_button_loc = (By.CSS_SELECTOR, 'span.k-select')
 
@@ -324,10 +296,8 @@ class SearchPage(BasePage):
         dropdown_button.click()
         self.__select_from_dropdown(value)
 
-    '''
-        The following section is the fucntions to input value to the textbox of dropdown list, such as
-        Calendar, Calendar&Time, Time, Dropdown
-    '''
+    # TODO fucntions to input value to the textbox of dropdown list, such as Calendar, Calendar&Time, Time, Dropdown
+
     # The CSS locator of the calendar and calendar&time control related to hj-field-control element
     dropdown_textbox_loc = (By.CSS_SELECTOR, 'input.k-input')
 
@@ -358,9 +328,8 @@ class SearchPage(BasePage):
         element = self.get_edit_element('Edit', 2)
         print(element.get_attribute('value'))
 
-    '''
-    The following section is the fucntions to locate and operate the listbox control.
-    '''
+    # TODO fucntions to locate and operate the listbox control.
+
     # The CSS locator of the listbox control related to hj-field-control element
     listbox_loc = (By.CSS_SELECTOR, 'hj-listbox>select')
 
@@ -386,12 +355,18 @@ class SearchPage(BasePage):
         listbox = select.Select(self.get_listbox_element(name,groupIndex))
         listbox.select_by_visible_text(value)
 
-    '''
-    The following section is the function to locate and operate the label control
-    '''
+    # TODO function to locate and operate the label control
+
+    #the css selector for hj-label
     label_loc = (By.CSS_SELECTOR,'hj-label>span')
 
     def get_label_element(self, name,groupIndex):
+        '''
+        Get the label element
+        :param name: String. The control's label name
+        :param groupIndex: Int. The field group the control located in.
+        :return: label element
+        '''
         field_control = self.__get_field_control(name, groupIndex)
         label_control = self.find_child_element(field_control, *self.label_loc)
         return label_control
@@ -411,13 +386,13 @@ if __name__ == '__main__':
     menu_bar.action_expand_menu('Receiving')
     menu_bar.action_expand_menu('ASNs', False)
     searchPage = SearchPage(webdriver)
-    print(searchPage.action_get_title())
+    print(searchPage.action_get_page_title())
     time.sleep(1)
     print (searchPage.action_get_all_labels_name(1))
     searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
     searchPage.action_checkbox_check('Search by Date')
     searchPage.action_searchlike_input('ASN Number','ASN2')
-    searchPage.action_click_button(searchPage.query_loc)
+    searchPage.action_click_button('query')
     # webdriver.quit()
 
 
