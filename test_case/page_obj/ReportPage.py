@@ -10,7 +10,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchAttributeException, NoSuchElementException
-from selenium.webdriver.support import select
 import time
 
 class ReportPage(BasePage):
@@ -281,7 +280,7 @@ if __name__ == '__main__':
     menu_bar.action_expand_menu('Receiving')
     menu_bar.action_expand_menu('ASNs', False)
     searchPage = SearchPage(webdriver)
-    searchPage.wait_page('search page')
+    searchPage.wait_page('Search ASNs')
     print(searchPage.action_get_page_title())
     time.sleep(1)
     print(searchPage.action_get_all_labels_name(1))
@@ -290,7 +289,7 @@ if __name__ == '__main__':
     searchPage.action_searchlike_input('ASN Number', 'ASN2')
     searchPage.action_click_button('query')
     reportPage = ReportPage(webdriver)
-    reportPage.wait_page('report page')
+    reportPage.wait_page('ASNs')
     print(reportPage.action_get_page_title())
     print (reportPage.action_get_headers())
     list = reportPage.action_get_values_by_row(1)
@@ -301,4 +300,11 @@ if __name__ == '__main__':
     print (reportPage.action_get_headers('ASN DETAILS'))
     print (reportPage.action_get_values_by_row(1, 'ASN DETAILS'))
     reportPage.action_click_cell(1,1,'ASN DETAILS')
+    searchPage2 = SearchPage(webdriver)
+    searchPage2.wait_page('Edit ASN Detail for ASN2 in Warehouse 02')
+    print(searchPage2.action_get_page_title())
+    searchPage.action_edit_clear('*PO Number')
+    searchPage.action_click_button('query')
+    print(searchPage.action_get_page_error())
+    print(searchPage.action_get_field_errors())
 

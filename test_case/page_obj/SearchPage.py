@@ -188,6 +188,16 @@ class SearchPage(BasePage):
         edit_element = self.get_edit_element(name, groupIndex)
         edit_element.send_keys(value)
 
+    def action_edit_clear(self,name,groupIndex=1):
+        '''
+        Clear the value in edit and masked edit control
+        :param name: string, The control's label name
+        :param groupIndex: Integer: The field group the control located in, default is 1
+        :return:
+        '''
+        edit_element = self.get_edit_element(name,groupIndex)
+        edit_element.clear()
+
     # TODO fucntions to locate and operate the multi edit control.
 
     # The CSS locator of the hj-multiline-textbox related to hj-field-control element
@@ -214,6 +224,16 @@ class SearchPage(BasePage):
         '''
         multiedit_element = self.get_multiedit_element(name, groupIndex)
         multiedit_element.send_keys(value)
+
+    def action_multiedit_clear(self,name,groupIndex=1):
+        '''
+        Clear the value in multiedit control
+        :param name: string, The control's label name
+        :param groupIndex: Integer: The field group the control located in, default is 1
+        :return:
+        '''
+        multiedit_element = self.get_multiedit_element(name, groupIndex)
+        multiedit_element.clear()
 
     # TODO fucntions to locate and operate the search like control.
 
@@ -252,6 +272,16 @@ class SearchPage(BasePage):
         time.sleep(1)
         self.__select_from_dropdown(search_type)
         searchlike_elements[1].send_keys(value)
+
+    def action_searchlike_clear(self,name,groupIndex=1):
+        '''
+        Clear the value in searchlike control
+        :param name: string, The control's label name
+        :param groupIndex: Integer: The field group the control located in, default is 1
+        :return:
+        '''
+        searchlike_elements = self.get_searchlike_element(name, groupIndex)
+        searchlike_elements[1].clear()
 
     # TODO fucntions to locate and operate the dorpdown list related controls. Support drop down list and Time controls
 
@@ -370,6 +400,28 @@ class SearchPage(BasePage):
         field_control = self.__get_field_control(name, groupIndex)
         label_control = self.find_child_element(field_control, *self.label_loc)
         return label_control
+
+    #TODO functions to get error message
+
+    #The xpath locator for page error hint
+    __page_error_loc = (By.XPATH, '//div[@class="hj-page-validation-errors-message"]')
+
+    def action_get_page_error(self):
+        '''
+        Get the page error hint value
+        :return:
+        '''
+        return self.wait_UI(self.__page_error_loc).text
+
+    __field_error_loc = (By.XPATH, '//span[@data-hj-test-id="field-error"]')
+
+    def action_get_field_errors(self):
+        self.wait_UI(self.__field_error_loc)
+        field_errors = self.find_elements(*self.__field_error_loc)
+        error_messages=[]
+        for error in field_errors:
+            error_messages.append(error.text)
+        return error_messages
 
 if __name__ == '__main__':
     webdriver = webdriver.Firefox()

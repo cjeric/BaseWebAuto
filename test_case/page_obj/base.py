@@ -13,7 +13,7 @@ class Base(object):
     def __init__(self, driver, base_url = home_page, parent = None):
         self.driver = driver
         self.base_url = base_url
-        self.timeout = 30
+        self.timeout = 10
         self.parent = parent
 
     def _open(self,url):

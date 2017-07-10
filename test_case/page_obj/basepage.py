@@ -4,7 +4,10 @@
 
 from test_case.page_obj.base import Base
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException,TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
 class BasePage(Base):
     url = ''
@@ -26,28 +29,26 @@ class BasePage(Base):
         title = self.wait_UI(self.page_title_loc)
         return self.find_element(*self.page_title_loc).text
 
-    # The CSS selector locator of three types of page
-    __search_page_loc = (By.CSS_SELECTOR, '[data-hj-test-id="search-page"]')
-    __edit_page_loc = (By.CSS_SELECTOR, '[data-hj-test-id="edit-page"]')
-    __report_page_loc = (By.CSS_SELECTOR, '[data-hj-test-id="report-page"]')
+    __footertext_loc = (By.CSS_SELECTOR, 'span.footer-text')
 
-    def wait_page(self, page_type):
+    def wait_page(self, page_title):
         '''
         Wait the specific page loaded.
         :param page_type: The type of page you want to wait
         :return: None
         '''
-        if page_type == 'search page':
-            self.wait_UI(self.__search_page_loc)
-            return
-        if page_type == 'edit page':
-            self.wait_UI(self.__edit_page_loc)
-            return
-        if page_type == 'report page':
-            self.wait_UI(self.__report_page_loc)
-            return
-        else:
-            raise Exception('The page_type must be search page, edit page or report page')
+
+        counter = 0
+        for i in range(self.timeout):
+            if counter > i:
+                raise TimeoutException('The page is not found')
+            else:
+                title = self.action_get_page_title()
+                if page_title == title:
+                    return True
+                else:
+                    time.sleep(1)
+                    counter=+1
 
     # button locators
     __query_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="query-button"]>a')
