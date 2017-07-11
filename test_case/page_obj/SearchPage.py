@@ -49,8 +49,9 @@ class SearchPage(BasePage):
         :param name: The control's label name
         :return: Return the hj-field-control web element
         '''
-        field_cell_path = self.__get_field_cells_path(groupIndex)
-        field_cells = self.find_elements(By.CSS_SELECTOR, field_cell_path) #Get all hj-field-cell elements in the hj-field-table-row
+        page_wrap = self.get_current_page_wrap()
+        field_cell_loc =(By.CSS_SELECTOR, self.__get_field_cells_path(groupIndex))
+        field_cells = self.find_child_elements(page_wrap,*field_cell_loc) #Get all hj-field-cell elements in the hj-field-table-row
         counter = 1
         if len(field_cells): # Go throuth each hj-field-cell, return hj-field-control if the text matches name input
             for cell in field_cells:
@@ -121,9 +122,9 @@ class SearchPage(BasePage):
             raise ValueError('groups_numbers must be int')
         name_list = []
         for i in range(1, groups_number+1):
-            field_cells_path = self.__get_field_cells_path(i)
-            field_cells = self.find_elements(By.CSS_SELECTOR,
-                                             field_cells_path)  # Get all hj-field-cell elements
+            page_wrap = self.get_current_page_wrap()
+            field_cell_loc = (By.CSS_SELECTOR, self.__get_field_cells_path(i))
+            field_cells = self.find_child_elements(page_wrap, *field_cell_loc)  # Get all hj-field-cell elements
             if len(field_cells):  # Go throuth each row, return hj-field-control if the text matches name input
                 for cell in field_cells:
                     text = self.find_child_element(cell, *self.field_label_loc).text
@@ -435,16 +436,16 @@ if __name__ == '__main__':
     time.sleep(1)
     menu_bar.action_expand_app_group('Supply Chain Advantage')
     menu_bar.action_expand_menu('Advantage Dashboard')
-    menu_bar.action_expand_menu('Receiving')
-    menu_bar.action_expand_menu('ASNs', False)
+    menu_bar.action_expand_menu('searchTest', False)
     searchPage = SearchPage(webdriver)
     print(searchPage.action_get_page_title())
     time.sleep(1)
     print (searchPage.action_get_all_labels_name(1))
-    searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
-    searchPage.action_checkbox_check('Search by Date')
-    searchPage.action_searchlike_input('ASN Number','ASN2')
-    searchPage.action_click_button('query')
+    searchPage.action_searchlike_input('searchLike','abc',2,'Exactly')
+    searchPage.action_listbox_select('ListBox','Warehouse 02', 2)
+    searchPage.action_checkbox_check('checkbox2',2)
+    searchPage.action_dropdown_input('time','1:30 AM',2)
+
     # webdriver.quit()
 
 

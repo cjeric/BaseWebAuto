@@ -13,7 +13,7 @@ class Base(object):
     def __init__(self, driver, base_url = home_page, parent = None):
         self.driver = driver
         self.base_url = base_url
-        self.timeout = 10
+        self.timeout = 30
         self.parent = parent
 
     def _open(self,url):
@@ -44,6 +44,7 @@ class Base(object):
 
     def wait_UI(self, *locators):
         return WebDriverWait(self.driver, self.timeout, 0.5).until(EC.visibility_of_element_located(*locators))
+
 
 
 

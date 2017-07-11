@@ -8,6 +8,7 @@ from test_case.page_obj.SearchPage import SearchPage
 from test_case.page_obj.MenuBar import MenuBar
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchAttributeException, NoSuchElementException
 import time
@@ -91,7 +92,8 @@ class ReportPage(BasePage):
         Return a list of header elements
         :return: a list of header elements
         '''
-        headers_container = self.find_element(*self.__table_header_container_loc)
+        page_wrap = self.get_current_page_wrap()
+        headers_container = self.find_child_element(page_wrap,*self.__table_header_container_loc)
         headers = self.find_child_elements(headers_container, *self.__table_headers_loc)
         return headers
 
@@ -116,7 +118,7 @@ class ReportPage(BasePage):
         raise NoSuchElementException('<th> headers are not located')
 
     # The xpath locator of table rows
-    __table_row_loc = (By.XPATH, '//table/tbody/tr[@class="k-master-row " or @class="k-alt k-master-row " or @class="k-master-row" or @class="k-alt k-master-row"]')
+    __table_row_loc = (By.XPATH, './/table/tbody/tr[@class="k-master-row " or @class="k-alt k-master-row " or @class="k-master-row" or @class="k-alt k-master-row"]')
     # The xpath locator of detail table rows related to the detail row table
     __rowdetail_row_loc = (By.XPATH, './/tbody/tr')
 
@@ -135,7 +137,8 @@ class ReportPage(BasePage):
             else:
                 raise NoSuchElementException('rows in row detail table are not located')
         else:
-            table_rows = self.find_elements(*self.__table_row_loc)
+            page_wrap = self.get_current_page_wrap()
+            table_rows = self.find_child_elements(page_wrap,*self.__table_row_loc)
             if len(table_rows):
                 #print (len(table_rows))
                 return table_rows
@@ -224,15 +227,16 @@ class ReportPage(BasePage):
     # TODO functions to operate row details
 
     #The xpath locator of table row details
-    __table_row_detail_loc = (By.XPATH,'//hj-panelbar[@class="row-details"]/ul/li')
+    __table_row_detail_loc = (By.XPATH,'.//hj-panelbar[@class="row-details"]/ul/li')
     #The xpath locator of row detail titles
-    __table_row_detail_title_loc = (By.XPATH, '//span[@class="hj-panel-title"]')
+    __table_row_detail_title_loc = (By.XPATH, './/span[@class="hj-panel-title"]')
     #The xpath locator of row detail icon
-    __table_row_detail_icon_loc = (By.XPATH,'//span[@class="k-icon k-i-arrow-s k-panelbar-expand"]')
+    __table_row_detail_icon_loc = (By.XPATH,'.//span[@class="k-icon k-i-arrow-s k-panelbar-expand"]')
 
     def __get_rowdetail_table_element(self, detail_name):
         titles = self.action_get_rowdetail_titles()
-        table_row_details = self.find_elements(*self.__table_row_detail_loc)
+        page_wrap = self.get_current_page_wrap()
+        table_row_details = self.find_child_elements(page_wrap, *self.__table_row_detail_loc)
         index = 0
         for title in titles:
             if title == detail_name:
@@ -242,8 +246,9 @@ class ReportPage(BasePage):
         raise NoSuchElementException('detail row table does not exist')
 
     def action_get_rowdetail_titles(self):
-        self.wait_UI(self.__table_row_detail_title_loc)
-        row_detail_titles = self.find_elements(*self.__table_row_detail_title_loc)
+        page_wrap = self.get_current_page_wrap()
+        WebDriverWait(self.driver, self.timeout, 0.5).until(EC.visibility_of_element_located((By.XPATH,'//span[@class="hj-panel-title"]')))
+        row_detail_titles = self.find_child_elements(page_wrap, *self.__table_row_detail_title_loc)
         if len(row_detail_titles):
             titles=[]
             for titel in row_detail_titles:
@@ -253,7 +258,8 @@ class ReportPage(BasePage):
 
     def action_extend_rowdetail(self, detail_name):
         titles = self.action_get_rowdetail_titles()
-        row_detail_icons = self.find_elements(*self.__table_row_detail_icon_loc)
+        page_wrap = self.get_current_page_wrap()
+        row_detail_icons = self.find_child_elements(page_wrap, *self.__table_row_detail_icon_loc)
         index = 0
         for title in titles:
             if title == detail_name:

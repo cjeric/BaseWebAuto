@@ -12,6 +12,19 @@ import time
 class BasePage(Base):
     url = ''
 
+    home_page = 'http://sca12r2ss12c:30000/core/Default.html'
+
+    # def __init__(self,driver, base_url = home_page, parent = None ):
+    #     Base.__init__(self,driver, base_url, parent)
+    #     self.__page_wrap_loc = (By.CSS_SELECTOR, 'div[class="hj-spaces-page-wrap supply-chain-advantage"][style="outline: medium none;"]')
+    #     self.page_wrap = self.wait_UI(self.__page_wrap_loc)
+
+    __page_wrap_loc = (
+    By.CSS_SELECTOR, 'div[class="hj-spaces-page-wrap supply-chain-advantage"][style="outline: medium none;"]')
+
+    def get_current_page_wrap(self):
+        return self.wait_UI(self.__page_wrap_loc)
+
     # page tiltle locator
     page_header_loc = (By.CSS_SELECTOR, 'div[data-hj-test-id="hj-active-thread-title"]')
     # Return the page title
@@ -64,6 +77,7 @@ class BasePage(Base):
         :param button: The button name
         :return: None
         '''
+        button.lower()
         if button == 'query':
             button_loc = self.__query_loc
         elif button == 'reset':
