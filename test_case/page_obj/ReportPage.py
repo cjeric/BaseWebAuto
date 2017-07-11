@@ -70,9 +70,9 @@ class ReportPage(BasePage):
                     return
         raise NoSuchElementException('The button is failed to be located')
 
-    def action_click_button(self, button_name, group=None):
+    def action_page_click_button(self, button_name, group=None):
         if group is None:
-            super(ReportPage,self).action_click_button(button_name)
+            super(ReportPage,self).action_page_click_button(button_name)
         elif group == 'page-action':
             self.__click_context_action_button(button_name)
         elif group == 'context-action':
@@ -118,7 +118,7 @@ class ReportPage(BasePage):
         raise NoSuchElementException('<th> headers are not located')
 
     # The xpath locator of table rows
-    __table_row_loc = (By.XPATH, './/table/tbody/tr[@class="k-master-row " or @class="k-alt k-master-row " or @class="k-master-row" or @class="k-alt k-master-row"]')
+    __table_row_loc = (By.XPATH, './/table/tbody/tr[@class="k-master-row " or @class="k-alt k-master-row " or @class="k-master-row" or @class="k-alt k-master-row" or @class="" or @class="k-alt "]')
     # The xpath locator of detail table rows related to the detail row table
     __rowdetail_row_loc = (By.XPATH, './/tbody/tr')
 
@@ -293,7 +293,7 @@ if __name__ == '__main__':
     searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
     #searchPage.action_checkbox_check('Search by Date')
     searchPage.action_searchlike_input('ASN Number', 'ASN2')
-    searchPage.action_click_button('query')
+    searchPage.action_page_click_button('query')
     reportPage = ReportPage(webdriver)
     reportPage.wait_page('ASNs')
     print(reportPage.action_get_page_title())
@@ -310,7 +310,11 @@ if __name__ == '__main__':
     searchPage2.wait_page('Edit ASN Detail for ASN2 in Warehouse 02')
     print(searchPage2.action_get_page_title())
     searchPage.action_edit_clear('*PO Number')
-    searchPage.action_click_button('query')
+    searchPage.action_page_click_button('query')
     print(searchPage.action_get_page_error())
     print(searchPage.action_get_field_errors())
+    searchPage2.action_page_previous()
+    time.sleep(3)
+    reportPage.action_page_next()
+
 

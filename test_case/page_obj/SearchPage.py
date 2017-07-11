@@ -49,9 +49,9 @@ class SearchPage(BasePage):
         :param name: The control's label name
         :return: Return the hj-field-control web element
         '''
-        page_wrap = self.get_current_page_wrap()
+        page_wrap = self.get_current_page_wrap() # Get the current displayed page wrap
         field_cell_loc =(By.CSS_SELECTOR, self.__get_field_cells_path(groupIndex))
-        field_cells = self.find_child_elements(page_wrap,*field_cell_loc) #Get all hj-field-cell elements in the hj-field-table-row
+        field_cells = self.find_child_elements(page_wrap,*field_cell_loc) #Get all hj-field-cell elements in the hj-field-table-row only in displayed page
         counter = 1
         if len(field_cells): # Go throuth each hj-field-cell, return hj-field-control if the text matches name input
             for cell in field_cells:
@@ -122,9 +122,9 @@ class SearchPage(BasePage):
             raise ValueError('groups_numbers must be int')
         name_list = []
         for i in range(1, groups_number+1):
-            page_wrap = self.get_current_page_wrap()
+            page_wrap = self.get_current_page_wrap() #Get the current displayed page_wrap
             field_cell_loc = (By.CSS_SELECTOR, self.__get_field_cells_path(i))
-            field_cells = self.find_child_elements(page_wrap, *field_cell_loc)  # Get all hj-field-cell elements
+            field_cells = self.find_child_elements(page_wrap, *field_cell_loc)  # Get all hj-field-cell elements only in the displayed page wrap
             if len(field_cells):  # Go throuth each row, return hj-field-control if the text matches name input
                 for cell in field_cells:
                     text = self.find_child_element(cell, *self.field_label_loc).text
@@ -445,6 +445,14 @@ if __name__ == '__main__':
     searchPage.action_listbox_select('ListBox','Warehouse 02', 2)
     searchPage.action_checkbox_check('checkbox2',2)
     searchPage.action_dropdown_input('time','1:30 AM',2)
+    menu_bar.action_toggle_menu()
+    time.sleep(1)
+    menu_bar.action_expand_menu('Inventory')
+    menu_bar.action_expand_menu('Inventory Snapshot', False)
+    searchPage.wait_page('Inventory Snapshot')
+    searchPage.action_page_click_button('query')
+    print(searchPage.action_error_dialog_get_message())
+    searchPage.action_error_dialog_click_button('Dismiss')
 
     # webdriver.quit()
 
