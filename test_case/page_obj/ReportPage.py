@@ -15,7 +15,7 @@ import time
 
 class ReportPage(BasePage):
     url = ''
-    # TODO functions to click button on the bar
+    # TODO functions to click button on the app bar
 
     # The xpath of buttons in page-actions <div>
     __page_action_buttons_loc = (By.XPATH, '//div[@data-hj-test-id="page-actions"]/ul/li/a')
@@ -58,7 +58,7 @@ class ReportPage(BasePage):
 
     def __click_context_action_button(self, button_name):
         '''
-        Click the button in context-action <div> by the provided name
+        Click the button in context-action <div> by the provided name. It is for the row operation on report page
         :param button_name: str: button name
         :return:
         '''
@@ -70,15 +70,22 @@ class ReportPage(BasePage):
                     return
         raise NoSuchElementException('The button is failed to be located')
 
-    def action_page_click_button(self, button_name, group=None):
-        if group is None:
+    def action_page_click_button(self, button_name, group='page-action'):
+        '''
+        Click the buttons on app bar
+        :param button_name: string, the name of the button
+        :param group: string: the group the button belongs to. The option is page-action and context-action
+        :return:
+        '''
+        # if group is None:
+        #     super(ReportPage,self).action_page_click_button(button_name)
+        if group == 'page-action':
             super(ReportPage,self).action_page_click_button(button_name)
-        elif group == 'page-action':
-            self.__click_context_action_button(button_name)
+            # self.__click_page_action_button(button_name)
         elif group == 'context-action':
             self.__click_context_action_button(button_name)
         else:
-            raise Exception('The group must be None, page-action or context-action')
+            raise Exception('The group must be page-action or context-action')
 
     # TODO functions to get and operate elements in table or row detail table
 
@@ -205,7 +212,7 @@ class ReportPage(BasePage):
     # The xpath locator of link in table related to a cell element
     __fieldlink_loc = (By.XPATH, './/span | .//a')
 
-    def action_click_cell(self, row, column, detail_name=None):
+    def action_cell_click(self, row, column, detail_name=None):
         '''
         Click the cell in the table. The row and column is the actual row number and column number in the table. This
         function can be used to click field link, row number, extend row details and click a label cell to highlight a
@@ -220,7 +227,7 @@ class ReportPage(BasePage):
             raise ValueError('row or column must be int')
         elif row>len(table):
             raise IndexError('The row is out of the number of rows')
-        elif column > len(table[row]):
+        elif column > len(table[row-1]):
             raise IndexError('The column is out of the number of columns')
         self.find_child_element(table[row-1][column-1], *self.__fieldlink_loc).click()
 
@@ -293,28 +300,31 @@ if __name__ == '__main__':
     searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
     #searchPage.action_checkbox_check('Search by Date')
     searchPage.action_searchlike_input('ASN Number', 'ASN2')
-    searchPage.action_page_click_button('query')
+    searchPage.action_page_click_button('Query')
     reportPage = ReportPage(webdriver)
     reportPage.wait_page('ASNs')
     print(reportPage.action_get_page_title())
     print (reportPage.action_get_headers())
     list = reportPage.action_get_values_by_row(1)
     print(list)
-    reportPage.action_click_cell(1, 1)
+    reportPage.action_cell_click(1,3)
+    reportPage.action_page_click_button('Edit', 'context-action')
+    reportPage.action_page_click_button('Cancel', 'context-action')
+    reportPage.action_cell_click(1, 1)
     print(reportPage.action_get_rowdetail_titles())
     reportPage.action_extend_rowdetail('ASN DETAILS')
     print (reportPage.action_get_headers('ASN DETAILS'))
     print (reportPage.action_get_values_by_row(1, 'ASN DETAILS'))
-    reportPage.action_click_cell(1,1,'ASN DETAILS')
+    reportPage.action_cell_click(1, 1, 'ASN DETAILS')
     searchPage2 = SearchPage(webdriver)
     searchPage2.wait_page('Edit ASN Detail for ASN2 in Warehouse 02')
     print(searchPage2.action_get_page_title())
+    searchPage2.action_page_click_button('Delete')
+    searchPage2.action_error_dialog_click_button('Dismiss')
     searchPage.action_edit_clear('*PO Number')
-    searchPage.action_page_click_button('query')
+    searchPage.action_page_click_button('Update')
     print(searchPage.action_get_page_error())
     print(searchPage.action_get_field_errors())
-    searchPage2.action_page_previous()
-    time.sleep(3)
-    reportPage.action_page_next()
+
 
 

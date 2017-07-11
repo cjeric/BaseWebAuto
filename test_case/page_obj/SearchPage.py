@@ -450,7 +450,7 @@ if __name__ == '__main__':
     menu_bar.action_expand_menu('Inventory')
     menu_bar.action_expand_menu('Inventory Snapshot', False)
     searchPage.wait_page('Inventory Snapshot')
-    searchPage.action_page_click_button('query')
+    searchPage.action_page_click_button('Create Snapshot')
     print(searchPage.action_error_dialog_get_message())
     searchPage.action_error_dialog_click_button('Dismiss')
 

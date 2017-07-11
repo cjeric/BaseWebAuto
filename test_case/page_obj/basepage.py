@@ -78,37 +78,42 @@ class BasePage(Base):
             raise Exception('The previous button is not clickable')
 
     # TODO functions to click buttons
-    # button locators
-    __query_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="query-button"]>a')
-    __reset_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="reset-button"]>a')
-    __refresh_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="refresh-page-button"]>a')
-    __update_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="update-button"]>a')
-    __delete_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="delete-button"]>a')
-    __cancel_loc = (By.CSS_SELECTOR, 'li[data-hj-test-id="cancel-button"]>a')
 
-    def action_page_click_button(self, button):
+    # The xpath of buttons in page-actions <div>
+    __page_action_buttons_loc = (By.XPATH, '//div[@data-hj-test-id="page-actions"]/ul/li/a')
+    __buttons_in_ellipsis_loc = (By.XPATH, '//div[@data-hj-test-id="page-actions"]/ul/li[@class="dropdown open"]/ul/li/a')
+
+    def __click_buttons_in_ellipsis(self, button_name):
         '''
-        The action to click the specific button
-        :param button: The button name
+        Click the button under ellipsis dropdown by provided name
+        :param button_name: str: the button name in the ellipsis dropdown
         :return: None
         '''
-        button.lower()
-        if button == 'query':
-            button_loc = self.__query_loc
-        elif button == 'reset':
-            button_loc = self.__reset_loc
-        elif button == 'refresh':
-            button_loc = self.__refresh_loc
-        elif button == 'update':
-            button_loc = self.__update_loc
-        elif button == 'delete':
-            button_loc = self.__delete_loc
-        elif button == 'cancel':
-            button_loc = self.__cancel_loc
-        else:
-            raise NoSuchElementException('The button name does not exist')
-        button = self.wait_UI(button_loc)
-        button.click()
+        buttons = self.find_elements(*self.__buttons_in_ellipsis_loc)
+        if len(buttons):
+            for button in buttons:
+                if button_name == button.text:
+                    button.click()
+                    return
+        raise NoSuchElementException('The button in ellispsis button is failed to be located')
+
+    def action_page_click_button(self, button_name):
+        '''
+        Click the button in page-action <div> by the provided name
+        :param button_name: str: button name
+        :return: None
+        '''
+        buttons = self.find_elements(*self.__page_action_buttons_loc)
+        if len(buttons):
+            for button in buttons: #Go throug buttons not in dorpdown.
+                if button_name == button.text:
+                    button.click()
+                    return
+            button = buttons.pop() # If nothing found in loop, then get the dropdown element
+            button.click()
+            self.__click_buttons_in_ellipsis(button_name) #find the button in dropdown
+            return
+        raise NoSuchElementException('The button is failed to be located')
 
     # TODO functions to operate information dialog
 
@@ -173,6 +178,7 @@ class BasePage(Base):
             for button in buttons:
                 if button.text == button_name:
                     button.click()
+                    return
         raise NoSuchElementException('No buttons found or the button_name is not correct')
 
     # TODO functions to operate error dialog
