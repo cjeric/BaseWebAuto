@@ -241,6 +241,11 @@ class ReportPage(BasePage):
     __table_row_detail_icon_loc = (By.XPATH,'.//span[@class="k-icon k-i-arrow-s k-panelbar-expand"]')
 
     def __get_rowdetail_table_element(self, detail_name):
+        '''
+        Return the row detail table by provided table name
+        :param detail_name: string, the row detail table name
+        :return: a row detail table element
+        '''
         titles = self.action_get_rowdetail_titles()
         page_wrap = self.get_current_page_wrap()
         table_row_details = self.find_child_elements(page_wrap, *self.__table_row_detail_loc)
@@ -253,6 +258,10 @@ class ReportPage(BasePage):
         raise NoSuchElementException('detail row table does not exist')
 
     def action_get_rowdetail_titles(self):
+        '''
+        Get the titles of all row detail tables
+        :return: a list of table titles
+        '''
         page_wrap = self.get_current_page_wrap()
         WebDriverWait(self.driver, self.timeout, 0.5).until(EC.visibility_of_element_located((By.XPATH,'//span[@class="hj-panel-title"]')))
         row_detail_titles = self.find_child_elements(page_wrap, *self.__table_row_detail_title_loc)
@@ -264,6 +273,11 @@ class ReportPage(BasePage):
         raise NoSuchElementException('detail row titles are not located')
 
     def action_extend_rowdetail(self, detail_name):
+        '''
+        Extend the row detail table by provided table name
+        :param detail_name: string, the name of the row detail table
+        :return: None
+        '''
         titles = self.action_get_rowdetail_titles()
         page_wrap = self.get_current_page_wrap()
         row_detail_icons = self.find_child_elements(page_wrap, *self.__table_row_detail_icon_loc)
