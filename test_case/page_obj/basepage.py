@@ -31,15 +31,15 @@ class BasePage(Base):
         return self.find_element(*self.page_header_loc).text
 
     #title locator
-    page_title_loc = (By.CSS_SELECTOR, 'span[data-hj-test-id="hj-active-page-title"]')
+    __page_title_loc = (By.CSS_SELECTOR, 'span[data-hj-test-id="hj-active-page-title"]')
 
-    def action_get_page_title(self):
+    def get_page_title(self):
         '''
         Return the page title by title_locator
         :return: The text of the page title
         '''
-        title = self.wait_UI(self.page_title_loc)
-        return self.find_element(*self.page_title_loc).text
+        title = self.wait_UI(self.__page_title_loc)
+        return self.find_element(*self.__page_title_loc).text
 
     # __footertext_loc = (By.CSS_SELECTOR, 'span.footer-text')
 
@@ -55,7 +55,7 @@ class BasePage(Base):
             if counter > i:
                 raise TimeoutException('The page is not found')
             else:
-                title = self.action_get_page_title()
+                title = self.get_page_title()
                 if page_title == title:
                     return True
                 else:
@@ -143,7 +143,7 @@ class BasePage(Base):
         info_dialog = self.__get_information_dialog()
         return self.find_child_elements(info_dialog, *self.__dialog_buttons_loc)
 
-    def action_info_dialog_get_title(self):
+    def get_infodialog_title(self):
         '''
         Return the info dialog title text
         :return: string: the info dialog title text
@@ -151,7 +151,7 @@ class BasePage(Base):
         info_dialog = self.__get_information_dialog()
         return self.find_child_element(info_dialog, *self.__info_dialog_title_loc).text
 
-    def action_info_dialog_get_header(self):
+    def get_infodialog_header(self):
         '''
         Return the info dialog header text
         :return: string: the info dialog header text
@@ -159,7 +159,7 @@ class BasePage(Base):
         info_dialog = self.__get_information_dialog()
         return self.find_child_element(info_dialog, *self.__info_dialog_header_loc).text
 
-    def action_info_dialog_get_message(self):
+    def get_infodialog_message(self):
         '''
         Return the info dialog message text
         :return: string: the info dialog message text
@@ -167,7 +167,7 @@ class BasePage(Base):
         info_dialog = self.__get_information_dialog()
         return self.find_child_element(info_dialog, *self.__info_dialog_message_loc).text
 
-    def action_info_dialog_click_button(self,button_name):
+    def action_infodialog_click_button(self, button_name):
         '''
         Click the button by provided name
         :param button_name: string, the name of the button
@@ -203,7 +203,7 @@ class BasePage(Base):
         info_dialog = self.__get_error_dialog()
         return self.find_child_elements(info_dialog, *self.__dialog_buttons_loc)
 
-    def action_error_dialog_get_message(self):
+    def get_errordialog_message(self):
         '''
         Return the error dialog message text
         :return: string: the error dialog message text
@@ -211,7 +211,7 @@ class BasePage(Base):
         info_dialog = self.__get_error_dialog()
         return self.find_child_element(info_dialog, *self.__error_dialog_message_loc).text
 
-    def action_error_dialog_click_button(self,button_name):
+    def action_errordialog_click_button(self, button_name):
         '''
         Click the button by provided name
         :param button_name: string, the name of the button

@@ -5,6 +5,7 @@
 from test_case.page_obj.basepage import BasePage
 from test_case.page_obj.LoginPage import LoginPage
 from test_case.page_obj.SearchPage import SearchPage
+from test_case.page_obj.EditPage import EditPage
 from test_case.page_obj.MenuBar import MenuBar
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -17,41 +18,41 @@ class ReportPage(BasePage):
     url = ''
     # TODO functions to click button on the app bar
 
-    # The xpath of buttons in page-actions <div>
-    __page_action_buttons_loc = (By.XPATH, '//div[@data-hj-test-id="page-actions"]/ul/li/a')
-    __buttons_in_ellipsis_loc = (By.XPATH,'//div[@data-hj-test-id="page-actions"]/ul/li[@class="dropdown open"]/ul/li/a')
+    # # The xpath of buttons in page-actions <div>
+    # __page_action_buttons_loc = (By.XPATH, '//div[@data-hj-test-id="page-actions"]/ul/li/a')
+    # __buttons_in_ellipsis_loc = (By.XPATH,'//div[@data-hj-test-id="page-actions"]/ul/li[@class="dropdown open"]/ul/li/a')
 
-    def __click_buttons_in_ellipsis(self, button_name):
-        '''
-        Click the button under ellipsis dropdown by provided name
-        :param button_name: str: the button name in the ellipsis dropdown
-        :return: None
-        '''
-        buttons = self.find_elements(*self.__buttons_in_ellipsis_loc)
-        if len(buttons):
-            for button in buttons:
-                if button_name == button.text:
-                    button.click()
-                    return
-        raise NoSuchElementException('The button in ellispsis button is failed to be located')
+    # def __click_buttons_in_ellipsis(self, button_name):
+    #     '''
+    #     Click the button under ellipsis dropdown by provided name
+    #     :param button_name: str: the button name in the ellipsis dropdown
+    #     :return: None
+    #     '''
+    #     buttons = self.find_elements(*self.__buttons_in_ellipsis_loc)
+    #     if len(buttons):
+    #         for button in buttons:
+    #             if button_name == button.text:
+    #                 button.click()
+    #                 return
+    #     raise NoSuchElementException('The button in ellispsis button is failed to be located')
 
-    def __click_page_action_button(self, button_name):
-        '''
-        Click the button in page-action <div> by the provided name
-        :param button_name: str: button name
-        :return: None
-        '''
-        buttons = self.find_elements(*self.__page_action_buttons_loc)
-        if len(buttons):
-            for button in buttons: #Go throug buttons not in dorpdown.
-                if button_name == button.text:
-                    button.click()
-                    return
-            button = buttons.pop() # If nothing found in loop, then get the dropdown element
-            button.click()
-            self.__click_buttons_in_ellipsis(button_name) #find the button in dropdown
-            return
-        raise NoSuchElementException('The button is failed to be located')
+    # def __click_page_action_button(self, button_name):
+    #     '''
+    #     Click the button in page-action <div> by the provided name
+    #     :param button_name: str: button name
+    #     :return: None
+    #     '''
+    #     buttons = self.find_elements(*self.__page_action_buttons_loc)
+    #     if len(buttons):
+    #         for button in buttons: #Go throug buttons not in dorpdown.
+    #             if button_name == button.text:
+    #                 button.click()
+    #                 return
+    #         button = buttons.pop() # If nothing found in loop, then get the dropdown element
+    #         button.click()
+    #         self.__click_buttons_in_ellipsis(button_name) #find the button in dropdown
+    #         return
+    #     raise NoSuchElementException('The button is failed to be located')
 
     # The xpath of buttons in page-actions <div>
     __context_action_buttons_loc = (By.XPATH, '//div[@data-hj-test-id="context-actions"]/ul/li/a')
@@ -103,26 +104,6 @@ class ReportPage(BasePage):
         headers_container = self.find_child_element(page_wrap,*self.__table_header_container_loc)
         headers = self.find_child_elements(headers_container, *self.__table_headers_loc)
         return headers
-
-    def action_get_headers(self,detail_name=None):
-        '''
-        Return a list of all displayed headers' name, not inculde row number
-        :param detail_name: string: the name of the row detail table
-        :return: a list of headers' name
-        '''
-        if detail_name is not None:
-            rowdetail = self.__get_rowdetail_table_element(detail_name)
-            headers = self.find_child_elements(rowdetail, *self.__table_headers_loc)
-        else:
-            headers = self.__get_header_elements()
-        if len(headers):
-            header_values=[]
-            for header in headers:
-                if header.get_attribute("style") == "display: none;":
-                    continue
-                header_values.append(header.get_attribute('data-title'))
-            return header_values
-        raise NoSuchElementException('<th> headers are not located')
 
     # The xpath locator of table rows
     __table_row_loc = (By.XPATH, './/table/tbody/tr[@class="k-master-row " or @class="k-alt k-master-row " or @class="k-master-row" or @class="k-alt k-master-row" or @class="" or @class="k-alt "]')
@@ -189,7 +170,27 @@ class ReportPage(BasePage):
 
     # TODO functions to operate table
 
-    def action_get_values_by_row(self, row, detail_name=None):
+    def get_headers(self, detail_name=None):
+        '''
+        Return a list of all displayed headers' name, not inculde row number
+        :param detail_name: string: the name of the row detail table
+        :return: a list of headers' name
+        '''
+        if detail_name is not None:
+            rowdetail = self.__get_rowdetail_table_element(detail_name)
+            headers = self.find_child_elements(rowdetail, *self.__table_headers_loc)
+        else:
+            headers = self.__get_header_elements()
+        if len(headers):
+            header_values=[]
+            for header in headers:
+                if header.get_attribute("style") == "display: none;":
+                    continue
+                header_values.append(header.get_attribute('data-title'))
+            return header_values
+        raise NoSuchElementException('<th> headers are not located')
+
+    def get_values_by_row(self, row, detail_name=None):
         '''
         Get all cell values of one row in the table. The row_number starts with 1. It is actual number in the table,
         :param row: Int: The number of row in the table
@@ -246,7 +247,7 @@ class ReportPage(BasePage):
         :param detail_name: string, the row detail table name
         :return: a row detail table element
         '''
-        titles = self.action_get_rowdetail_titles()
+        titles = self.get_rowdetail_titles()
         page_wrap = self.get_current_page_wrap()
         table_row_details = self.find_child_elements(page_wrap, *self.__table_row_detail_loc)
         index = 0
@@ -257,7 +258,7 @@ class ReportPage(BasePage):
                 index += 1
         raise NoSuchElementException('detail row table does not exist')
 
-    def action_get_rowdetail_titles(self):
+    def get_rowdetail_titles(self):
         '''
         Get the titles of all row detail tables
         :return: a list of table titles
@@ -278,7 +279,7 @@ class ReportPage(BasePage):
         :param detail_name: string, the name of the row detail table
         :return: None
         '''
-        titles = self.action_get_rowdetail_titles()
+        titles = self.get_rowdetail_titles()
         page_wrap = self.get_current_page_wrap()
         row_detail_icons = self.find_child_elements(page_wrap, *self.__table_row_detail_icon_loc)
         index = 0
@@ -308,37 +309,55 @@ if __name__ == '__main__':
     menu_bar.action_expand_menu('ASNs', False)
     searchPage = SearchPage(webdriver)
     searchPage.wait_page('Search ASNs')
-    print(searchPage.action_get_page_title())
-    time.sleep(1)
-    print(searchPage.action_get_all_labels_name(1))
+    print(searchPage.get_page_title())
+    # time.sleep(1)
+    print(searchPage.get_all_labels_name(1))
     searchPage.action_dropdown_select('Warehouse ID', 'Warehouse2 - Warehouse 02')
     #searchPage.action_checkbox_check('Search by Date')
     searchPage.action_searchlike_input('ASN Number', 'ASN2')
     searchPage.action_page_click_button('Query')
     reportPage = ReportPage(webdriver)
     reportPage.wait_page('ASNs')
-    print(reportPage.action_get_page_title())
-    print (reportPage.action_get_headers())
-    list = reportPage.action_get_values_by_row(1)
+    print(reportPage.get_page_title())
+    print (reportPage.get_headers())
+    list = reportPage.get_values_by_row(1)
     print(list)
-    reportPage.action_cell_click(1,3)
-    reportPage.action_page_click_button('Edit', 'context-action')
-    reportPage.action_page_click_button('Cancel', 'context-action')
     reportPage.action_cell_click(1, 1)
-    print(reportPage.action_get_rowdetail_titles())
+    print(reportPage.get_rowdetail_titles())
     reportPage.action_extend_rowdetail('ASN DETAILS')
-    print (reportPage.action_get_headers('ASN DETAILS'))
-    print (reportPage.action_get_values_by_row(1, 'ASN DETAILS'))
+    print (reportPage.get_headers('ASN DETAILS'))
+    print (reportPage.get_values_by_row(1, 'ASN DETAILS'))
     reportPage.action_cell_click(1, 1, 'ASN DETAILS')
     searchPage2 = SearchPage(webdriver)
     searchPage2.wait_page('Edit ASN Detail for ASN2 in Warehouse 02')
-    print(searchPage2.action_get_page_title())
+    print(searchPage2.get_page_title())
     searchPage2.action_page_click_button('Delete')
-    searchPage2.action_error_dialog_click_button('Dismiss')
+    searchPage2.action_errordialog_click_button('Dismiss')
     searchPage.action_edit_clear('*PO Number')
     searchPage.action_page_click_button('Update')
-    print(searchPage.action_get_page_error())
-    print(searchPage.action_get_field_errors())
+    print(searchPage.get_page_error())
+    print(searchPage.get_field_errors())
+    menu_bar.action_toggle_menu()
+    time.sleep(1)
+    menu_bar.action_collapse_menu('Advantage Dashboard')
+    time.sleep(1)
+    menu_bar.action_expand_menu('Receiving')
+    menu_bar.action_expand_menu('Unknown Receipts')
+    menu_bar.action_expand_menu('Resolve Unknown Receipts', False)
+    reportPage2 = ReportPage(webdriver)
+    reportPage2.wait_page('Resolve Unknown Receipts')
+    # time.sleep(3)
+    reportPage2.action_cell_click(1, 1)
+    editPage = EditPage(webdriver)
+    editPage.wait_page('Edit Resovle Unknown Receipt')
+    editPage.action_dropdown_select('Carrier Name', 'DHL', 1)
+    editPage.action_dropdown_select('Status', 'Resolved', 2)
+    editPage.action_multiedit_input('Resolution Comment', 'comment', 2)
+    editPage.action_page_click_button('Delete')
+    print(editPage.get_infodialog_header())
+    print(editPage.get_infodialog_title())
+    print(editPage.get_infodialog_message())
+    editPage.action_infodialog_click_button('Cancel')
 
 
 

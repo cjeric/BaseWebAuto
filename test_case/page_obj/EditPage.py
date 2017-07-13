@@ -4,7 +4,7 @@
 
 from test_case.page_obj.LoginPage import LoginPage
 from test_case.page_obj.SearchPage import SearchPage
-from test_case.page_obj.ReportPage import ReportPage
+# from test_case.page_obj.ReportPage import ReportPage
 from test_case.page_obj.MenuBar import MenuBar
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -35,14 +35,14 @@ if __name__ == '__main__':
     reportPage.wait_page('Resolve Unknown Receipts')
     time.sleep(3)
     reportPage.action_cell_click(1, 1)
-    editPage = EditPage(webdriver)
+    editPage = SearchPage(webdriver)
     editPage.wait_page('Edit Resovle Unknown Receipt')
-    # print(editPage.action_get_all_labels_name(2))
+    # print(editPage.get_all_labels_name(2))
     editPage.action_dropdown_select('Carrier Name','DHL', 1)
     editPage.action_dropdown_select('Status','Resolved',2)
     editPage.action_multiedit_input('Resolution Comment', 'comment',2)
     editPage.action_page_click_button('Delete')
-    print (editPage.action_info_dialog_get_header())
-    print (editPage.action_info_dialog_get_title())
-    print(editPage.action_info_dialog_get_message())
-    editPage.action_info_dialog_click_button('Cancel')
+    print (editPage.get_infodialog_header())
+    print (editPage.get_infodialog_title())
+    print(editPage.get_infodialog_message())
+    editPage.action_infodialog_click_button('Cancel')
