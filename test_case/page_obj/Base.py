@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 #!c:/Python36
-#Filename: base.py
+#Filename: Base.py
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC

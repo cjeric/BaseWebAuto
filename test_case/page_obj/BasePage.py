@@ -1,8 +1,8 @@
 # _*_ coding: utf-8 _*_
 # !c:/Python36
-# Filename: basepage.py
+# Filename: BasePage.py
 
-from test_case.page_obj.base import Base
+from test_case.page_obj.Base import Base
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException,TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait

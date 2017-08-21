@@ -2,7 +2,7 @@
 #!c:/Python36
 #Filename: ReportPage.py
 
-from test_case.page_obj.basepage import BasePage
+from test_case.page_obj.BasePage import BasePage
 from test_case.page_obj.LoginPage import LoginPage
 from test_case.page_obj.SearchPage import SearchPage
 from test_case.page_obj.EditPage import EditPage

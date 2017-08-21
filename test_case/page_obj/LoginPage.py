@@ -2,7 +2,7 @@
 #!c:/Python36
 #Filename: LoginPage.py
 
-from test_case.page_obj.base import Base
+from test_case.page_obj.Base import Base
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 

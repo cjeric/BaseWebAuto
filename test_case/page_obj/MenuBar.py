@@ -2,7 +2,7 @@
 #!c:/Python36
 #Filename: MenuBar.py
 
-from test_case.page_obj.base import Base
+from test_case.page_obj.Base import Base
 from test_case.page_obj.LoginPage import LoginPage
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -49,7 +49,7 @@ class MenuBar(Base):
                 group.click()
                 break
     # The locator of the opened menu
-    __current_open_menu_loc = (By.XPATH, '//li[@class="with-children current open"]')
+    __current_open_menu_loc = (By.XPATH, '//li[@class="with-children current open"] | //li[@class="with-children open current"]')
     # The locator of the sub menu to extend
     __menu_toextend_loc = (By.XPATH, './/li[@class="with-children closed"]/a')
     # The locator of the page to open
@@ -93,7 +93,6 @@ class MenuBar(Base):
 
 
 if __name__ == '__main__':
-    pass
     webdriver = webdriver.Firefox()
     login_page = LoginPage(webdriver)
     login_page.login()
@@ -105,8 +104,11 @@ if __name__ == '__main__':
     menu_bar.action_expand_menu('Advantage Dashboard')
     menu_bar.action_expand_menu('Receiving')
     menu_bar.action_expand_menu('ASNs', False)
+    time.sleep(3)
     menu_bar.action_toggle_menu()
     time.sleep(1)
     menu_bar.action_collapse_menu('Advantage Dashboard')
-    menu_bar.action_backto_menu()
+    menu_bar.action_expand_menu('Receiving')
+    # menu_bar.action_collapse_menu('Advantage Dashboard')
+    # menu_bar.action_backto_menu()
 
