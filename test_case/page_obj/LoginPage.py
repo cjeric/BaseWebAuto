@@ -51,6 +51,9 @@ class LoginPage(Base):
     def __action_click_login(self):
         self.find_element(*self.__login_button_loc).click()
 
+    # Menu button locator
+    menu_button_loc = (By.ID, 'menuButtonToggle')
+
     # login in HJ1
     def login(self):
         self.open()
@@ -58,7 +61,13 @@ class LoginPage(Base):
         self.__action_input_username()
         self.__action_input_password()
         self.__action_click_login()
-
+        try:
+            self.wait_UI(self.menu_button_loc)
+        except:
+            print 'Login failed'
+            raise
+        else:
+            print 'Login Successfully'
 
 if __name__ == '__main__':
     driver = webdriver.Firefox()

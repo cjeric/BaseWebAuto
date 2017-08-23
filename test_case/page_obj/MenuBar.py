@@ -97,7 +97,6 @@ if __name__ == '__main__':
     login_page = LoginPage(webdriver)
     login_page.login()
     menu_bar = MenuBar(webdriver)
-    menu_bar.wait_UI(menu_bar.menu_button_loc)
     menu_bar.action_toggle_menu()
     time.sleep(1)
     menu_bar.action_expand_app_group('Supply Chain Advantage')
