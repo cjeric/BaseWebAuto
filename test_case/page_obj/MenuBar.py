@@ -6,6 +6,7 @@ from test_case.page_obj.Base import Base
 from test_case.page_obj.LoginPage import LoginPage
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 import time
 
 
@@ -44,10 +45,13 @@ class MenuBar(Base):
         :return: None
         '''
         group_list = self.find_elements(*self.app_group_loc)
-        for group in group_list:
-            if group.text == groupName:
-                group.click()
-                break
+        if len(group_list)>0:
+            for group in group_list:
+                if group.text == groupName:
+                    group.click()
+                    return
+        raise NoSuchElementException("The application %s not found" % groupName)
+
     # The locator of the opened menu
     __current_open_menu_loc = (By.XPATH, '//li[@class="with-children current open"] | //li[@class="with-children open current"]')
     # The locator of the sub menu to extend
@@ -69,10 +73,12 @@ class MenuBar(Base):
         else:
             menu_items_loc = self.__page_toopen_loc
         menu_items = open_menu.find_elements(*menu_items_loc)
-        for menu_item in menu_items:
-            if menu_item.text == menu:
-                menu_item.click()
-                break
+        if len(menu_items)>0:
+            for menu_item in menu_items:
+                if menu_item.text == menu:
+                    menu_item.click()
+                    return
+        raise NoSuchElementException('The menu or page %s not found' % menu)
 
     #The locator of the current opened menu's parent menus
     __ancestor_menu_loctor = (By.XPATH, '//li[@class="with-children open ancestor"]/a')
@@ -85,10 +91,12 @@ class MenuBar(Base):
         :return:
         '''
         menu_items = self.find_elements(*self.__ancestor_menu_loctor)
-        for menu_item in menu_items:
-            if menu_item.text == menu:
-                menu_item.click()
-                break
+        if len(menu_items)>0:
+            for menu_item in menu_items:
+                if menu_item.text == menu:
+                    menu_item.click()
+                    return
+        raise NoSuchElementException('Menu %s not found' % menu)
 
 
 
@@ -108,6 +116,6 @@ if __name__ == '__main__':
     time.sleep(1)
     menu_bar.action_collapse_menu('Advantage Dashboard')
     menu_bar.action_expand_menu('Receiving')
-    # menu_bar.action_collapse_menu('Advantage Dashboard')
-    # menu_bar.action_backto_menu()
+    menu_bar.action_collapse_menu('Supply Chain Advantage')
+    menu_bar.action_backto_menu()
 
