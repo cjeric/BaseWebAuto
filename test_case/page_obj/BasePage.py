@@ -52,15 +52,12 @@ class BasePage(Base):
 
         counter = 0
         for i in range(self.timeout):
-            if counter > i:
-                raise TimeoutException('The page is not found')
+            title = self.get_page_title()
+            if page_title == title:
+                return True
             else:
-                title = self.get_page_title()
-                if page_title == title:
-                    return True
-                else:
-                    time.sleep(1)
-                    counter=+1
+                time.sleep(1)
+        raise TimeoutException('Fail to open page %s' % page_title)
 
     __previous_button_loc = (By.XPATH, '//a[@data-hj-test-id="active-thread-previous-button"]')
     __next_button_loc = (By.XPATH, '//a[@data-hj-test-id="active-thread-next-button"]')

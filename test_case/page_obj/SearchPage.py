@@ -356,6 +356,10 @@ class SearchPage(BasePage):
         calendar_textbox.send_keys(value)
 
     def get_value(self):
+        '''
+        Not finished
+        :return:
+        '''
         element = self.__get_edit_element('Edit', 2)
         print(element.get_attribute('value'))
 

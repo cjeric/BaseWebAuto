@@ -2,15 +2,15 @@
 #!c:/Python36
 #Filename: MenuBar.py
 
-from test_case.page_obj.Base import Base
 from test_case.page_obj.LoginPage import LoginPage
+from test_case.page_obj.BasePage import BasePage
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import time
 
 
-class MenuBar(Base):
+class MenuBar(BasePage):
     url = ''
 
     #Menu button locator
@@ -60,7 +60,7 @@ class MenuBar(Base):
     __page_toopen_loc = (By.XPATH, './/li[@class="without-children closed"]/a')
 
     # Click the submenu or page under the current opened menu
-    def action_expand_menu(self, menu, isMenu = True):
+    def action_expand_menu(self, menu, isMenu = True, title = None):
         '''
         Expand the sub menu or open the page
         :param menu: The name of menu item
@@ -77,6 +77,8 @@ class MenuBar(Base):
             for menu_item in menu_items:
                 if menu_item.text == menu:
                     menu_item.click()
+                    if not isMenu and title is not None:
+                        self.wait_page(title)
                     return
         raise NoSuchElementException('The menu or page %s not found' % menu)
 
@@ -111,7 +113,7 @@ if __name__ == '__main__':
     menu_bar.action_expand_menu('Advantage Dashboard')
     menu_bar.action_expand_menu('Receiving')
     menu_bar.action_expand_menu('ASNs', False)
-    time.sleep(3)
+    #time.sleep(3)
     menu_bar.action_toggle_menu()
     time.sleep(1)
     menu_bar.action_collapse_menu('Advantage Dashboard')
