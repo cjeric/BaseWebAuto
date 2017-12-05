@@ -17,7 +17,7 @@ class BasePage(Base):
     __page_wrap_loc = (
     By.CSS_SELECTOR, 'div[class="hj-spaces-page-wrap supply-chain-advantage"][style="outline: medium none;"]')
 
-    def get_current_page_wrap(self):
+    def _get_current_page_wrap(self):
         '''
         Get the current displayed page wrap element
         :return: page wrap web element
@@ -25,10 +25,10 @@ class BasePage(Base):
         return self.wait_UI(self.__page_wrap_loc)
 
     # page header locator
-    page_header_loc = (By.CSS_SELECTOR, 'div[data-hj-test-id="hj-active-thread-title"]')
+    _page_header_loc = (By.CSS_SELECTOR, 'div[data-hj-test-id="hj-active-thread-title"]')
     # Return the page title
     def get_header(self):
-        return self.find_element(*self.page_header_loc).text
+        return self.find_element(*self._page_header_loc).text
 
     #title locator
     __page_title_loc = (By.CSS_SELECTOR, 'span[data-hj-test-id="hj-active-page-title"]')
@@ -49,18 +49,13 @@ class BasePage(Base):
         :param page_type: The type of page you want to wait
         :return: None
         '''
-
-        counter = 0
         for i in range(self.timeout):
-            if counter > i:
-                raise TimeoutException('The page is not found')
+            title = self.get_page_title()
+            if page_title == title:
+                return True
             else:
-                title = self.get_page_title()
-                if page_title == title:
-                    return True
-                else:
-                    time.sleep(1)
-                    counter=+1
+                time.sleep(1)
+        raise TimeoutException('Fail to open page %s' % page_title)
 
     __previous_button_loc = (By.XPATH, '//a[@data-hj-test-id="active-thread-previous-button"]')
     __next_button_loc = (By.XPATH, '//a[@data-hj-test-id="active-thread-next-button"]')

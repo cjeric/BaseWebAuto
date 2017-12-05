@@ -49,7 +49,7 @@ class SearchPage(BasePage):
         :param name: The control's label name
         :return: Return the hj-field-control web element
         '''
-        page_wrap = self.get_current_page_wrap() # Get the current displayed page wrap
+        page_wrap = self._get_current_page_wrap() # Get the current displayed page wrap
         field_cell_loc =(By.CSS_SELECTOR, self.__get_field_cells_path(groupIndex))
         field_cells = self.find_child_elements(page_wrap,*field_cell_loc) #Get all hj-field-cell elements in the hj-field-table-row only in displayed page
         counter = 1
@@ -122,7 +122,7 @@ class SearchPage(BasePage):
             raise ValueError('groups_numbers must be int')
         name_list = []
         for i in range(1, groups_number+1):
-            page_wrap = self.get_current_page_wrap() #Get the current displayed page_wrap
+            page_wrap = self._get_current_page_wrap() #Get the current displayed page_wrap
             field_cell_loc = (By.CSS_SELECTOR, self.__get_field_cells_path(i))
             field_cells = self.find_child_elements(page_wrap, *field_cell_loc)  # Get all hj-field-cell elements only in the displayed page wrap
             if len(field_cells):  # Go throuth each row, return hj-field-control if the text matches name input
@@ -356,6 +356,10 @@ class SearchPage(BasePage):
         calendar_textbox.send_keys(value)
 
     def get_value(self):
+        '''
+        Not finished
+        :return:
+        '''
         element = self.__get_edit_element('Edit', 2)
         print(element.get_attribute('value'))
 
@@ -448,8 +452,7 @@ if __name__ == '__main__':
     menu_bar.action_toggle_menu()
     time.sleep(1)
     menu_bar.action_expand_menu('Inventory')
-    menu_bar.action_expand_menu('Inventory Snapshot', False)
-    searchPage.wait_page('Inventory Snapshot')
+    menu_bar.action_expand_menu('Inventory Snapshot', False, 'Inventory Snapshot')
     searchPage.action_page_click_button('Create Snapshot')
     print(searchPage.get_errordialog_message())
     searchPage.action_errordialog_click_button('Dismiss')

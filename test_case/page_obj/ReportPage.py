@@ -100,7 +100,7 @@ class ReportPage(BasePage):
         Return a list of header elements
         :return: a list of header elements
         '''
-        page_wrap = self.get_current_page_wrap()
+        page_wrap = self._get_current_page_wrap()
         headers_container = self.find_child_element(page_wrap,*self.__table_header_container_loc)
         headers = self.find_child_elements(headers_container, *self.__table_headers_loc)
         return headers
@@ -125,7 +125,7 @@ class ReportPage(BasePage):
             else:
                 raise NoSuchElementException('rows in row detail table are not located')
         else:
-            page_wrap = self.get_current_page_wrap()
+            page_wrap = self._get_current_page_wrap()
             table_rows = self.find_child_elements(page_wrap,*self.__table_row_loc)
             if len(table_rows):
                 #print (len(table_rows))
@@ -248,7 +248,7 @@ class ReportPage(BasePage):
         :return: a row detail table element
         '''
         titles = self.get_rowdetail_titles()
-        page_wrap = self.get_current_page_wrap()
+        page_wrap = self._get_current_page_wrap()
         table_row_details = self.find_child_elements(page_wrap, *self.__table_row_detail_loc)
         index = 0
         for title in titles:
@@ -263,7 +263,7 @@ class ReportPage(BasePage):
         Get the titles of all row detail tables
         :return: a list of table titles
         '''
-        page_wrap = self.get_current_page_wrap()
+        page_wrap = self._get_current_page_wrap()
         WebDriverWait(self.driver, self.timeout, 0.5).until(EC.visibility_of_element_located((By.XPATH,'//span[@class="hj-panel-title"]')))
         row_detail_titles = self.find_child_elements(page_wrap, *self.__table_row_detail_title_loc)
         if len(row_detail_titles):
@@ -280,7 +280,7 @@ class ReportPage(BasePage):
         :return: None
         '''
         titles = self.get_rowdetail_titles()
-        page_wrap = self.get_current_page_wrap()
+        page_wrap = self._get_current_page_wrap()
         row_detail_icons = self.find_child_elements(page_wrap, *self.__table_row_detail_icon_loc)
         index = 0
         for title in titles:

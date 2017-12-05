@@ -2,7 +2,6 @@
 #!c:/Python36
 #Filename: MenuBar.py
 
-from test_case.page_obj.Base import Base
 from test_case.page_obj.LoginPage import LoginPage
 from test_case.page_obj.BasePage import BasePage
 from selenium import webdriver
@@ -46,10 +45,13 @@ class MenuBar(BasePage):
         :return: None
         '''
         group_list = self.find_elements(*self.app_group_loc)
-        for group in group_list:
-            if group.text == groupName:
-                group.click()
-                break
+        if len(group_list)>0:
+            for group in group_list:
+                if group.text == groupName:
+                    group.click()
+                    return
+        raise NoSuchElementException("The application %s not found" % groupName)
+
     # The locator of the opened menu
     __current_open_menu_loc = (By.XPATH, '//li[@class="with-children current open"] | //li[@class="with-children open current"]')
     # The locator of the sub menu to extend
@@ -58,7 +60,7 @@ class MenuBar(BasePage):
     __page_toopen_loc = (By.XPATH, './/li[@class="without-children closed"]/a')
 
     # Click the submenu or page under the current opened menu
-    def action_expand_menu(self, menu, isMenu=True, title=None):
+    def action_expand_menu(self, menu, isMenu = True, title = None):
         '''
         Expand the sub menu or open the page
         :param menu: The name of menu item
@@ -71,14 +73,14 @@ class MenuBar(BasePage):
         else:
             menu_items_loc = self.__page_toopen_loc
         menu_items = open_menu.find_elements(*menu_items_loc)
-        if len(menu_items) > 0:
+        if len(menu_items)>0:
             for menu_item in menu_items:
                 if menu_item.text == menu:
                     menu_item.click()
                     if not isMenu and title is not None:
                         self.wait_page(title)
                     return
-        raise NoSuchElementException('Fail to expand Menu or open page, %s not found' % menu)
+        raise NoSuchElementException('The menu or page %s not found' % menu)
 
     def navi_to_page(self, group, page_title, *submenu_list):
         self.action_toggle_menu()
@@ -103,10 +105,12 @@ class MenuBar(BasePage):
         :return:
         '''
         menu_items = self.find_elements(*self.__ancestor_menu_loctor)
-        for menu_item in menu_items:
-            if menu_item.text == menu:
-                menu_item.click()
-                break
+        if len(menu_items)>0:
+            for menu_item in menu_items:
+                if menu_item.text == menu:
+                    menu_item.click()
+                    return
+        raise NoSuchElementException('Menu %s not found' % menu)
 
 
 
@@ -121,11 +125,11 @@ if __name__ == '__main__':
     # menu_bar.action_expand_menu('ASNs', False)
     menulist=['Advantage Dashboard','Receiving','ASNs']
     menu_bar.navi_to_page('Supply Chain Advantage','Search ASNs',*menulist)
-    time.sleep(3)
+    #time.sleep(3)
     menu_bar.action_toggle_menu()
     time.sleep(1)
     menu_bar.action_collapse_menu('Advantage Dashboard')
     menu_bar.action_expand_menu('Receiving')
-    # menu_bar.action_collapse_menu('Advantage Dashboard')
-    # menu_bar.action_backto_menu()
+    menu_bar.action_collapse_menu('Supply Chain Advantage')
+    menu_bar.action_backto_menu()
 
