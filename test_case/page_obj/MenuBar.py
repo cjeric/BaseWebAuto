@@ -4,12 +4,14 @@
 
 from test_case.page_obj.Base import Base
 from test_case.page_obj.LoginPage import LoginPage
+from test_case.page_obj.BasePage import BasePage
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 import time
 
 
-class MenuBar(Base):
+class MenuBar(BasePage):
     url = ''
 
     #Menu button locator
@@ -56,12 +58,12 @@ class MenuBar(Base):
     __page_toopen_loc = (By.XPATH, './/li[@class="without-children closed"]/a')
 
     # Click the submenu or page under the current opened menu
-    def action_expand_menu(self, menu, isMenu = True):
+    def action_expand_menu(self, menu, isMenu=True, title=None):
         '''
         Expand the sub menu or open the page
         :param menu: The name of menu item
         :param isMenu: whether the link is a submenu
-        :return:
+        :return: None
         '''
         open_menu = self.wait_UI(self.__current_open_menu_loc)
         if isMenu:
@@ -69,10 +71,26 @@ class MenuBar(Base):
         else:
             menu_items_loc = self.__page_toopen_loc
         menu_items = open_menu.find_elements(*menu_items_loc)
-        for menu_item in menu_items:
-            if menu_item.text == menu:
-                menu_item.click()
-                break
+        if len(menu_items) > 0:
+            for menu_item in menu_items:
+                if menu_item.text == menu:
+                    menu_item.click()
+                    if not isMenu and title is not None:
+                        self.wait_page(title)
+                    return
+        raise NoSuchElementException('Fail to expand Menu or open page, %s not found' % menu)
+
+    def navi_to_page(self, group, page_title, *submenu_list):
+        self.action_toggle_menu()
+        time.sleep(1)
+        self.action_expand_app_group(group)
+        counter = 0
+        for item in submenu_list:
+            if counter == len(submenu_list) - 1:
+                self.action_expand_menu(submenu_list[counter], False, page_title)
+            else:
+                self.action_expand_menu(submenu_list[counter])
+                counter += 1
 
     #The locator of the current opened menu's parent menus
     __ancestor_menu_loctor = (By.XPATH, '//li[@class="with-children open ancestor"]/a')
@@ -97,12 +115,12 @@ if __name__ == '__main__':
     login_page = LoginPage(webdriver)
     login_page.login()
     menu_bar = MenuBar(webdriver)
-    menu_bar.action_toggle_menu()
-    time.sleep(1)
-    menu_bar.action_expand_app_group('Supply Chain Advantage')
-    menu_bar.action_expand_menu('Advantage Dashboard')
-    menu_bar.action_expand_menu('Receiving')
-    menu_bar.action_expand_menu('ASNs', False)
+    # menu_bar.action_expand_app_group('Supply Chain Advantage')
+    # menu_bar.action_expand_menu('Advantage Dashboard')
+    # menu_bar.action_expand_menu('Receiving')
+    # menu_bar.action_expand_menu('ASNs', False)
+    menulist=['Advantage Dashboard','Receiving','ASNs']
+    menu_bar.navi_to_page('Supply Chain Advantage','Search ASNs',*menulist)
     time.sleep(3)
     menu_bar.action_toggle_menu()
     time.sleep(1)
